@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         #login-page {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivGjD3pnBJdkJsjYF8_Aule72CbkUsjswqUKfXAON52EsbC24je7K6SMvF2bJabuDI3qxovF-uIlbXglphcOSTI5XmU0kRw4rizcdr1cc_b7Lq0BZBxr4resjL4MHFMF_8tz707V6GIfjopOzJdN-n0Z59z2fIJlmTnCLIhCV3NAgWoV-xf6XmMhbNVgTB/s5803/anime-night-sky-illustration%20(1).jpg');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitq6K8XKsviEbBdFfHL-9YbgLWt4KbbTcRMyWC747rknHeUIYkfRcuOehg0qGk5RfS0heMcINquTsklME_Ta2RpT2o2lGm3T-jf9OnDlUgv8VOZOXeYObOOZ4iL6dj_D5Hnga_skQu7aR9bWEFvEwxTL54t2YxxZig_1JOMk1QegE95mpYujwyvT1fP3wJ/s320/ChatGPT%20Image%20Apr%206,%202026,%2009_00_30%20PM.png');
             background-size: cover;
             background-position: center;
             position: relative;
@@ -2609,19 +2609,29 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 submissionType = 'submissions'; // Nama tabel
                 const scoreRecord = fileScores.find(s => s.student_id === student.id);
                 currentScore = scoreRecord?.score ?? '';
-                submissionHTML = `<a href="${submission.file_url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                                    <i data-feather="download" class="w-4 h-4 mr-2"></i>${submission.file_name}
-                                </a>`;
+                submissionHTML = `<div class="flex items-center space-x-2">
+                                    <a href="${submission.file_url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 flex items-center">
+                                        <i data-feather="download" class="w-4 h-4 mr-2"></i>${submission.file_name}
+                                    </a>
+                                    <button class="delete-submission-btn text-red-500 hover:text-red-700" data-student-id="${student.id}" data-table-name="${submissionType}" data-meeting-number="${meetingNumInt}" title="Delete Submission">
+                                        <i data-feather="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                  </div>`;
             } else if (submission.submission_type === 'essay' && submission.content) {
                 submissionType = 'essay_submissions'; // Nama tabel
                 const scoreRecord = essayScores.find(s => s.student_id === student.id);
                 currentScore = scoreRecord?.score ?? '';
-                submissionHTML = `<button 
-                                    class="view-essay-btn text-purple-600 hover:text-purple-800 flex items-center"
-                                    data-student-name="${student.name}"
-                                    data-content="${encodeURIComponent(submission.content)}">
-                                    <i data-feather="file-text" class="w-4 h-4 mr-2"></i>View Essay
-                                </button>`;
+                submissionHTML = `<div class="flex items-center space-x-2">
+                                    <button 
+                                        class="view-essay-btn text-purple-600 hover:text-purple-800 flex items-center"
+                                        data-student-name="${student.name}"
+                                        data-content="${encodeURIComponent(submission.content)}">
+                                        <i data-feather="file-text" class="w-4 h-4 mr-2"></i>View Essay
+                                    </button>
+                                    <button class="delete-submission-btn text-red-500 hover:text-red-700" data-student-id="${student.id}" data-table-name="${submissionType}" data-meeting-number="${meetingNumInt}" title="Delete Submission">
+                                        <i data-feather="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                  </div>`;
             } else if (submission.submission_type === 'essay' && !submission.content) {
                 submissionHTML = '<span class="text-gray-500 italic">Empty Essay</span>';
             }
@@ -2685,6 +2695,33 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 e.target.style.borderColor = 'green';
                 setTimeout(() => { e.target.style.borderColor = ''; }, 2000);
             }
+        });
+    });
+
+    // --- LISTENER BARU UNTUK DELETE SUBMISSION ---
+    tableBody.querySelectorAll('.delete-submission-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const button = e.currentTarget;
+            const studentId = button.dataset.studentId;
+            const tableName = button.dataset.tableName;
+            const meetingNum = button.dataset.meetingNumber;
+
+            showConfirmationModal(
+                'Delete Submission',
+                'Are you sure you want to delete this submission? The student will need to submit again.',
+                async () => {
+                    const { error } = await db.from(tableName)
+                        .delete()
+                        .match({ student_id: studentId, meeting_number: meetingNum });
+
+                    if (error) {
+                        showNotification('Gagal menghapus submission: ' + error.message, 'error');
+                    } else {
+                        showNotification('Submission berhasil dihapus!', 'success');
+                        renderLecturerSubmissions(meetingNum); // Refresh table
+                    }
+                }
+            );
         });
     });
 
