@@ -208,12 +208,30 @@
     [data-feather] {
         pointer-events: none;
     }
+    
+    /* Style untuk area pengumuman login */
+    #login-announcement-content a {
+        color: #93c5fd;
+        text-decoration: underline;
+    }
     </style>
 </head>
 <body class="min-h-screen bg-gray-100">
     <div id="app" class="flex flex-col min-h-screen">
         <!-- Login Page -->
-        <div id="login-page" class="flex flex-col items-center justify-center min-h-screen p-4">
+        <div id="login-page" class="flex flex-col items-center justify-center min-h-screen p-4 overflow-y-auto">
+            
+            <!-- Announcement Banner (Muncul jika is_active = true) -->
+            <div id="login-announcement" class="w-full max-w-md glass-card rounded-lg shadow-xl mb-6 p-5 hidden" data-aos="fade-down">
+                <div class="flex items-center mb-2 border-b border-gray-400 border-opacity-30 pb-2">
+                    <i data-feather="megaphone" class="text-yellow-400 mr-2 w-5 h-5"></i>
+                    <h3 class="text-md font-bold text-white uppercase tracking-wider">Pengumuman</h3>
+                </div>
+                <div id="login-announcement-content" class="text-gray-100 text-sm leading-relaxed ql-editor px-0 py-2">
+                    <!-- Konten pengumuman dirender di sini -->
+                </div>
+            </div>
+
             <div class="w-full max-w-md glass-card rounded-lg shadow-xl overflow-hidden" data-aos="fade-up">
                 <div class="px-6 py-8">
                     <div class="flex justify-center mb-8">
@@ -319,7 +337,7 @@
                     <span class="ml-3 text-xl font-semibold text-gray-800">Lecturer Panel</span>
                 </div>
                 <div id="lecturer-clock" class="text-sm font-medium text-center px-4 py-3 border-b animated-clock-text"></div>
-                <nav class="flex-grow p-4 space-y-2">
+                <nav class="flex-grow p-4 space-y-2 overflow-y-auto">
                     <a href="#" class="lecturer-sidebar-link active flex items-center px-4 py-2.5 text-sm font-medium rounded-lg" data-content="lecturer-modules-content">
                         <i data-feather="grid" class="w-5 h-5 mr-3"></i> Modules
                     </a>
@@ -335,7 +353,10 @@
                     <a href="#" class="lecturer-sidebar-link flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-content="lecturer-scores-content">
                         <i data-feather="award" class="w-5 h-5 mr-3"></i> Scores
                     </a>
-                     <!-- NEW MENU ITEM -->
+                    <!-- MENU BARU: Pengumuman -->
+                    <a href="#" class="lecturer-sidebar-link flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-content="lecturer-announcement-content">
+                        <i data-feather="megaphone" class="w-5 h-5 mr-3"></i> Pengumuman
+                    </a>
                     <a href="#" class="lecturer-sidebar-link flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-content="lecturer-komting-content">
                         <i data-feather="message-square" class="w-5 h-5 mr-3"></i> Hubungi Komting
                     </a>
@@ -463,6 +484,34 @@
                          </div>
                      </div>
                  </div>
+
+                 <!-- NEW CONTENT AREA: Pengumuman -->
+                 <div id="lecturer-announcement-content" class="lecturer-tab-content hidden">
+                     <div class="flex justify-between items-center mb-6">
+                         <h1 class="text-3xl font-bold text-gray-800">Manajemen Pengumuman</h1>
+                     </div>
+                     <div class="bg-white p-6 rounded-lg shadow-md max-w-4xl">
+                         <div class="flex items-center space-x-3 mb-6 bg-blue-50 p-4 rounded border border-blue-100">
+                             <div class="relative inline-block w-10 align-middle select-none">
+                                 <input type="checkbox" id="announcement-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                                 <label for="announcement-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                             </div>
+                             <label for="announcement-toggle" class="text-sm font-medium text-gray-700 cursor-pointer">
+                                 Tampilkan Pengumuman di Halaman Login Mahasiswa
+                             </label>
+                         </div>
+                         <div class="mb-6">
+                             <label class="block text-sm font-semibold text-gray-700 mb-2">Teks Pengumuman</label>
+                             <p class="text-xs text-gray-500 mb-2">Tuliskan instruksi atau pengumuman penting di sini.</p>
+                             <!-- Editor Quill untuk pengumuman -->
+                             <div id="announcement-editor-container" class="bg-white" style="height: 200px;"></div>
+                         </div>
+                         <button id="save-announcement-btn" class="bg-indigo-600 text-white px-5 py-2.5 rounded-md hover:bg-indigo-700 font-semibold transition-all flex items-center shadow-md">
+                             <i data-feather="save" class="w-4 h-4 mr-2"></i> Simpan Pengumuman
+                         </button>
+                     </div>
+                 </div>
+
                  <!-- NEW CONTENT AREA -->
                  <div id="lecturer-komting-content" class="lecturer-tab-content hidden">
                      <!-- Content will be rendered by JavaScript -->
@@ -723,6 +772,7 @@
         // Global variable for Quill editor instance
         let quill = null;
         let quizQuillEditors = {};
+        let announcementQuill = null; // Khusus untuk pengumuman
         let dynamicRpsData = []; // Ini akan menggantikan rpsData yang statis
         let fullStudentData = {}; // Cache for student view data
         let currentlyViewedMeeting = null; // To track the active module
@@ -809,6 +859,8 @@
             const loginPage = document.getElementById('login-page');
             if (show) {
                 loginPage.classList.remove('hidden');
+                // Selalu coba ambil pengumuman saat ke halaman login
+                fetchAnnouncement();
             } else {
                 loginPage.classList.add('hidden');
             }
@@ -878,9 +930,13 @@
         }
 
         // --- AUTH & NAVIGATION FUNCTIONS ---
-        function logout() {
+        async function logout() {
             sessionStorage.removeItem('user');
-            db.auth.signOut();
+            try {
+                await db.auth.signOut();
+            } catch(e) {
+                console.warn("Error signing out:", e);
+            }
             showStudentDashboard(false);
             showLecturerDashboard(false);
             showLoginPage(true);
@@ -2811,12 +2867,16 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
 
             if (!tableName || tableName === 'null') return; // Jangan simpan jika tidak ada submission
 
-            const { error } = await db.from(tableName)
+            const { error, data } = await db.from(tableName)
                 .update({ score: newScore })
-                .match({ student_id: studentId, meeting_number: meetingNum });
+                .match({ student_id: studentId, meeting_number: meetingNum })
+                .select();
 
             if (error) {
                 showNotification(`Gagal menyimpan nilai: ${error.message}`, 'error');
+                e.target.style.borderColor = 'red';
+            } else if (data && data.length === 0) {
+                showNotification('Gagal! Diblokir oleh RLS Supabase.', 'error');
                 e.target.style.borderColor = 'red';
             } else {
                 showNotification('Nilai berhasil disimpan!', 'success');
@@ -2943,9 +3003,11 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                     if (!quizId || !studentId) return;
 
                     if (newScore === '' || newScore === null) {
-                        const { error } = await db.from('scores').delete().match({ student_id: studentId, quiz_id: quizId });
+                        const { error, data } = await db.from('scores').delete().match({ student_id: studentId, quiz_id: quizId }).select();
                         if (error) {
                             showNotification(`Error: ${error.message}`, 'error');
+                        } else if (data && data.length === 0) {
+                            showNotification('Gagal! Diblokir RLS Supabase.', 'error');
                         } else {
                             showNotification('Score removed.', 'success');
                             e.target.style.borderColor = '';
@@ -2959,14 +3021,17 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                             return;
                         }
 
-                        const { error } = await db.from('scores').upsert({
+                        const { error, data } = await db.from('scores').upsert({
                             student_id: studentId,
                             quiz_id: quizId,
                             score: scoreValue
-                        }, { onConflict: 'student_id, quiz_id' });
+                        }, { onConflict: 'student_id, quiz_id' }).select();
 
                         if (error) {
                             showNotification(`Error: ${error.message}`, 'error');
+                            e.target.style.borderColor = 'red';
+                        } else if (data && data.length === 0) {
+                            showNotification('Gagal! Diblokir RLS Supabase.', 'error');
                             e.target.style.borderColor = 'red';
                         } else {
                             showNotification('Score saved!', 'success');
@@ -2992,9 +3057,11 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                         `Reset Progress`,
                         `Are you sure you want to reset the quiz score for ${studentName} in Meeting ${meetNum}? The student will be able to retake the quiz.`,
                         async () => {
-                            const { error } = await db.from('scores').delete().match({ student_id: studentId, quiz_id: quizId });
+                            const { error, data } = await db.from('scores').delete().match({ student_id: studentId, quiz_id: quizId }).select();
                             if (error) {
                                 showNotification('Failed to reset score: ' + error.message, 'error');
+                            } else if (data && data.length === 0) {
+                                showNotification('Gagal! Diblokir oleh RLS Supabase.', 'error');
                             } else {
                                 showNotification(`Score for ${studentName} in Meeting ${meetNum} has been reset.`);
                                 await renderLecturerScores(meetNum); // Refresh the table
@@ -3005,6 +3072,55 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             });
             feather.replace();
             document.getElementById('search-scores-input').dispatchEvent(new Event('input'));
+        }
+        
+        // --- NEW FUNCTION: Fetch & Setup Announcement Data ---
+        async function fetchAnnouncement() {
+            try {
+                // Ignore errors silently if table doesn't exist yet
+                const { data, error } = await db.from('announcement').select('*').eq('id', 1).single();
+                if (data && !error) {
+                    const banner = document.getElementById('login-announcement');
+                    const bannerContent = document.getElementById('login-announcement-content');
+                    if (data.is_active && data.content) {
+                        bannerContent.innerHTML = data.content;
+                        banner.classList.remove('hidden');
+                    } else {
+                        banner.classList.add('hidden');
+                    }
+                }
+            } catch (e) {
+                console.warn("Table announcement might not exist or network error.");
+            }
+        }
+
+        function initAnnouncementQuill() {
+            if(announcementQuill) return;
+            announcementQuill = new Quill('#announcement-editor-container', {
+                theme: 'snow',
+                modules: { 
+                    toolbar: [
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{'color': []}, {'background': []}],
+                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                        [{'align': []}],
+                        ['link']
+                    ] 
+                }
+            });
+        }
+
+        async function renderAnnouncementDashboard() {
+            initAnnouncementQuill();
+            try {
+                const { data, error } = await db.from('announcement').select('*').eq('id', 1).single();
+                if (data && !error) {
+                    document.getElementById('announcement-toggle').checked = data.is_active;
+                    announcementQuill.root.innerHTML = data.content || '';
+                }
+            } catch(e) {
+                 console.warn("Table announcement might not exist.", e);
+            }
         }
         
         // UPDATED FUNCTION: Render the "Hubungi Komting" page with edit functionality
@@ -3299,50 +3415,71 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
 
         // --- Initial App Load ---
         async function checkSession() {
-    // 1. SELALU mulai dengan mengecek sesi Supabase
-    const { data: { session } } = await db.auth.getSession();
+    try {
+        // 1. SELALU mulai dengan mengecek sesi Supabase
+        const { data: { session }, error: sessionError } = await db.auth.getSession();
 
-    if (session && session.user) {
-        // 2. Sesi DITEMUKAN. Cari tahu siapa dia.
-        const user = session.user;
-        const userRole = user.user_metadata?.role;
+        if (sessionError) {
+            console.warn("Supabase session error:", sessionError.message);
+            sessionStorage.removeItem('user');
+            showLoginPage(true);
+            return;
+        }
 
-        if (userRole === 'lecturer') {
-            // 3. Ini DOSEN
-            sessionStorage.setItem('user', JSON.stringify({ 
-                role: 'lecturer', 
-                username: 'Dosen', 
-                id: user.id 
-            }));
-            await fetchRpsData(); // Ambil data RPS
-            showLoginPage(false);
-            await showLecturerDashboard(true);
+        if (session && session.user) {
+            // 2. Sesi DITEMUKAN. Cari tahu siapa dia.
+            const user = session.user;
+            const userRole = user.user_metadata?.role;
 
-        } else {
-            // 4. Ini (kemungkinan) MAHASISWA
-            const { data: studentData, error } = await db.from('students').select('*').eq('id', user.id).single();
-
-            if (studentData) {
-                // 5. Ini MAHASISWA yang valid
-                sessionStorage.setItem('user', JSON.stringify({ role: 'student', ...studentData }));
+            if (userRole === 'lecturer') {
+                // 3. Ini DOSEN
+                sessionStorage.setItem('user', JSON.stringify({ 
+                    role: 'lecturer', 
+                    username: 'Dosen', 
+                    id: user.id 
+                }));
                 await fetchRpsData(); // Ambil data RPS
                 showLoginPage(false);
-                await showStudentDashboard(true);
+                await showLecturerDashboard(true);
+
             } else {
-                // 6. Ini PENGGUNA ANEH (terotentikasi tapi bukan dosen & tidak ada di tabel students)
-                console.error("User authenticated but no profile found. Logging out.", user.id);
-                logout(); // Ini adalah error Anda sebelumnya, tapi sekarang hanya berlaku untuk pengguna aneh
+                // 4. Ini (kemungkinan) MAHASISWA
+                const { data: studentData, error } = await db.from('students').select('*').eq('id', user.id).single();
+
+                if (studentData) {
+                    // 5. Ini MAHASISWA yang valid
+                    sessionStorage.setItem('user', JSON.stringify({ role: 'student', ...studentData }));
+                    await fetchRpsData(); // Ambil data RPS
+                    showLoginPage(false);
+                    await showStudentDashboard(true);
+                } else {
+                    // 6. Ini PENGGUNA ANEH (terotentikasi tapi bukan dosen & tidak ada di tabel students)
+                    console.error("User authenticated but no profile found. Logging out.", user.id);
+                    logout(); // Ini adalah error Anda sebelumnya, tapi sekarang hanya berlaku untuk pengguna aneh
+                }
             }
+        } else {
+            // 7. Tidak ada sesi SAMA SEKALI. Tampilkan login.
+            // Hapus sisa data sessionStorage lama (jika ada)
+            sessionStorage.removeItem('user'); 
+            showLoginPage(true);
         }
-    } else {
-        // 7. Tidak ada sesi SAMA SEKALI. Tampilkan login.
-        // Hapus sisa data sessionStorage lama (jika ada)
-        sessionStorage.removeItem('user'); 
+    } catch (err) {
+        console.error("Unexpected checkSession error:", err);
+        sessionStorage.removeItem('user');
         showLoginPage(true);
     }
 }
         
         document.addEventListener('DOMContentLoaded', () => {
+            // --- GLOBAL AUTH LISTENER ---
+            db.auth.onAuthStateChange((event, session) => {
+                if (event === 'TOKEN_REFRESH_FAILED') {
+                    console.warn('Token refresh failed. Logging out...');
+                    logout();
+                }
+            });
+
              // All event listeners that target specific DOM elements should be inside here.
 
             // --- SEARCH FILTER LISTENERS ---
@@ -3414,13 +3551,42 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                         case 'lecturer-modules-content':
                              await renderLecturerModules();
                              break;
-                        // NEW CASE for Hubungi Komting
+                        case 'lecturer-announcement-content':
+                             await renderAnnouncementDashboard();
+                             break;
                         case 'lecturer-komting-content':
                             renderHubungiKomting();
                             break;
                     }
                 });
             });
+
+            // --- LECTURER ANNOUNCEMENT SAVE ---
+            const saveAnnouncementBtn = document.getElementById('save-announcement-btn');
+            if (saveAnnouncementBtn) {
+                saveAnnouncementBtn.addEventListener('click', async () => {
+                    const isActive = document.getElementById('announcement-toggle').checked;
+                    const content = announcementQuill.root.innerHTML;
+                    
+                    saveAnnouncementBtn.innerHTML = 'Menyimpan...';
+
+                    const { error } = await db.from('announcement').upsert({ 
+                        id: 1, 
+                        is_active: isActive, 
+                        content: content 
+                    });
+
+                    if (error) {
+                        showNotification('Gagal menyimpan pengumuman: ' + error.message, 'error');
+                    } else {
+                        showNotification('Pengumuman berhasil disimpan!', 'success');
+                        fetchAnnouncement(); // Update live di halaman login yang tersembunyi
+                    }
+                    
+                    saveAnnouncementBtn.innerHTML = '<i data-feather="save" class="w-4 h-4 mr-2"></i> Simpan Pengumuman';
+                    feather.replace();
+                });
+            }
 
             // --- MATERIAL MODAL LISTENERS ---
             document.getElementById('cancel-material').addEventListener('click', () => {
@@ -3578,40 +3744,54 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             
             document.getElementById('export-scores-btn').addEventListener('click', exportScoresToExcel);
             
-            // FUNGSI RESET SEMUA NILAI (Baru)
+            // FUNGSI RESET NILAI PER PERTEMUAN
             document.getElementById('reset-all-scores-btn').addEventListener('click', () => {
+                const meetingNum = document.getElementById('score-meeting-select').value;
+                if (!meetingNum) {
+                    showNotification('Silakan pilih meeting terlebih dahulu!', 'error');
+                    return;
+                }
+
                 showConfirmationModal(
-                    'Reset Semua Nilai Mahasiswa',
-                    'Apakah Anda yakin ingin menghapus SEMUA nilai (Kuis, UTS, UAS, Tugas File, dan Esai) untuk seluruh mahasiswa? Tindakan ini bersifat permanen dan tidak dapat dibatalkan.',
+                    `Reset Nilai Meeting ${meetingNum}`,
+                    `Apakah Anda yakin ingin menghapus SEMUA nilai (Kuis, Tugas File, dan Esai) hanya untuk Meeting ${meetingNum}? Tindakan ini bersifat permanen dan tidak dapat dibatalkan.`,
                     async () => {
-                        showNotification('Sedang mereset semua nilai...', 'success');
+                        showNotification(`Sedang mereset nilai Meeting ${meetingNum}...`, 'success');
                         
                         try {
-                            // 1. Hapus semua data di tabel scores (Nilai Kuis/Ujian)
-                            const { error: errScores } = await db.from('scores')
-                                .delete()
-                                .not('student_id', 'is', null);
-                            if (errScores) throw errScores;
+                            // 1. Cari Quiz ID untuk meeting ini
+                            const { data: quizData } = await db.from('quizzes').select('id').eq('meeting', meetingNum).single();
+                            
+                            // 2. Hapus data di tabel scores (Nilai Kuis/Ujian) HANYA untuk quiz_id ini
+                            if (quizData) {
+                                const { error: errScores, data: dataScores } = await db.from('scores')
+                                    .delete()
+                                    .eq('quiz_id', quizData.id)
+                                    .select();
+                                if (errScores) throw errScores;
+                            }
 
-                            // 2. Kosongkan (null) kolom score di tabel submissions (Tugas File)
-                            const { error: errSubmissions } = await db.from('submissions')
+                            // 3. Kosongkan (null) kolom score di tabel submissions (Tugas File) HANYA untuk meeting ini
+                            const { error: errSubmissions, data: dataSubmissions } = await db.from('submissions')
                                 .update({ score: null })
-                                .not('student_id', 'is', null);
+                                .eq('meeting_number', meetingNum)
+                                .select();
                             if (errSubmissions) throw errSubmissions;
 
-                            // 3. Kosongkan (null) kolom score di tabel essay_submissions (Tugas Esai)
-                            const { error: errEssays } = await db.from('essay_submissions')
+                            // 4. Kosongkan (null) kolom score di tabel essay_submissions (Tugas Esai) HANYA untuk meeting ini
+                            const { error: errEssays, data: dataEssays } = await db.from('essay_submissions')
                                 .update({ score: null })
-                                .not('student_id', 'is', null);
+                                .eq('meeting_number', meetingNum)
+                                .select();
                             if (errEssays) throw errEssays;
 
-                            showNotification('Semua nilai berhasil direset!', 'success');
+                            showNotification(`Semua nilai untuk Meeting ${meetingNum} berhasil direset!`, 'success');
                             
                             // Render ulang tabel nilai agar perubahannya langsung terlihat
-                            await renderLecturerScores(); 
+                            await renderLecturerScores(meetingNum); 
                             
                         } catch (error) {
-                            console.error("Error resetting all scores:", error);
+                            console.error("Error resetting scores:", error);
                             showNotification('Gagal mereset nilai: ' + error.message, 'error');
                         }
                     }
