@@ -932,6 +932,12 @@
         // --- AUTH & NAVIGATION FUNCTIONS ---
         async function logout() {
             sessionStorage.removeItem('user');
+            // Bersihkan sisa token Supabase di localStorage untuk mencegah error Invalid Refresh Token
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('sb-')) {
+                    localStorage.removeItem(key);
+                }
+            });
             try {
                 await db.auth.signOut();
             } catch(e) {
@@ -1082,10 +1088,12 @@
                 materialData.file_name = file_name;
             }
 
-            const { error } = await db.from('materials').upsert({ id: id || undefined, ...materialData });
+            const { error, data } = await db.from('materials').upsert({ id: id || undefined, ...materialData }).select();
 
             if (error) {
                 showNotification('Failed to save material: ' + error.message, 'error');
+            } else if (data && data.length === 0) {
+                showNotification('Gagal menyimpan material. Aksi diblokir oleh RLS Supabase.', 'error');
             } else {
                 showNotification('Material saved successfully!');
                 document.getElementById('material-modal').classList.add('hidden');
@@ -1095,9 +1103,11 @@
         
         async function deleteMaterial(materialId) {
             if (confirm('Are you sure you want to delete this material?')) {
-                const { error } = await db.from('materials').delete().eq('id', materialId);
+                const { error, data } = await db.from('materials').delete().eq('id', materialId).select();
                 if (error) {
                     showNotification('Failed to delete material: ' + error.message, 'error');
+                } else if (data && data.length === 0) {
+                    showNotification('Gagal menghapus material. Aksi diblokir oleh RLS Supabase.', 'error');
                 } else {
                     showNotification('Material deleted.');
                     document.getElementById('material-modal').classList.add('hidden');
@@ -1456,6 +1466,9 @@
                 }
 
                 if (quizError) throw quizError;
+                if (!quizData) {
+                    throw new Error("Gagal menyimpan detail kuis. Aksi diblokir oleh RLS Supabase.");
+                }
                  console.log("[SaveQuiz Debug] Quiz details saved/updated. Quiz ID:", quizData.id);
 
 
@@ -1661,6 +1674,12 @@ if (!validationError && !payload.question_text) {
                     console.error("[SaveQuiz Debug] Update error:", updateResult.error);
                     throw updateResult.error;
                 }
+                 if (itemsToInsert.length > 0 && (!insertResult.data || insertResult.data.length === 0)) {
+                    throw new Error("Gagal menambah soal. Aksi diblokir oleh RLS Supabase.");
+                }
+                 if (itemsToUpdate.length > 0 && (!updateResult.data || updateResult.data.length === 0)) {
+                    throw new Error("Gagal mengubah soal. Aksi diblokir oleh RLS Supabase.");
+                }
                  console.log("[SaveQuiz Debug] Insert result:", insertResult.data);
                  console.log("[SaveQuiz Debug] Update result:", updateResult.data);
 
@@ -1684,10 +1703,13 @@ if (!validationError && !payload.question_text) {
 
                     
                     if (idsToDelete.length > 0) {
-                        const { error: deleteError } = await db.from('questions').delete().in('id', idsToDelete);
+                        const { error: deleteError, data: deleteData } = await db.from('questions').delete().in('id', idsToDelete).select();
                         if (deleteError) {
                              console.error("[SaveQuiz Debug] Delete error:", deleteError);
                              throw deleteError;
+                        }
+                        if (deleteData && deleteData.length === 0) {
+                             throw new Error("Gagal menghapus soal lama. Aksi diblokir oleh RLS Supabase.");
                         }
                          console.log("[SaveQuiz Debug] Successfully deleted items:", idsToDelete);
                     }
@@ -1705,9 +1727,11 @@ if (!validationError && !payload.question_text) {
         // ... (sisa kode JavaScript tidak berubah) ...
          async function deleteQuiz(quizId) {
             if (confirm('Are you sure you want to delete this quiz and all its questions? This action cannot be undone.')) {
-                const { error } = await db.from('quizzes').delete().eq('id', quizId);
+                const { error, data } = await db.from('quizzes').delete().eq('id', quizId).select();
                 if (error) {
                     showNotification('Failed to delete quiz: ' + error.message, 'error');
+                } else if (data && data.length === 0) {
+                    showNotification('Gagal menghapus kuis. Aksi diblokir oleh RLS Supabase.', 'error');
                 } else {
                     showNotification('Quiz deleted successfully.');
                     document.getElementById('quiz-builder-modal').classList.add('hidden');
@@ -2107,6 +2131,91 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
         function renderModuleDetail(meetingNumber) {
             currentlyViewedMeeting = meetingNumber;
             const detailContainer = document.getElementById('student-module-detail');
+
+            // --- FUNGSI CEK PRASYARAT (BARU) ---
+            function isMeetingCompleted(mNum) {
+                const meeting = fullStudentData.meetings.find(m => m.meeting_number == mNum);
+                // Jika meeting belum di-unlock dosen, anggap "lolos" agar mahasiswa tidak terjebak
+                if (!meeting) return true; 
+
+                let requiredCount = 0;
+                let completedCount = 0;
+
+                // Cek apakah kuis aktif dan sudah dikerjakan (ada skor)
+                if (meeting.quiz_enabled) {
+                    requiredCount++;
+                    const quiz = fullStudentData.quizzes.find(q => q.meeting == mNum);
+                    if (quiz) {
+                        const hasScore = fullStudentData.scores.some(s => s.quiz_id === quiz.id);
+                        if (hasScore) completedCount++;
+                    }
+                }
+                // Cek apakah tugas file aktif dan sudah ada unggahan
+                if (meeting.assignment_enabled) {
+                    requiredCount++;
+                    const hasSubmission = fullStudentData.submissions.some(s => s.meeting_number == mNum);
+                    if (hasSubmission) completedCount++;
+                }
+                // Cek apakah tugas esai aktif dan sudah ada isian
+                if (meeting.essay_enabled) {
+                    requiredCount++;
+                    const hasEssay = fullStudentData.essaySubmissions.some(s => s.meeting_number == mNum);
+                    if (hasEssay) completedCount++;
+                }
+
+                // Selesai jika semua yang diwajibkan (aktif) sudah dikerjakan
+                return requiredCount === 0 || requiredCount === completedCount;
+            }
+
+            // --- VALIDASI AKSES UTS (M8) ---
+            if (meetingNumber == 8) {
+                let incompleteMeetings = [];
+                for (let i = 1; i <= 7; i++) {
+                    if (!isMeetingCompleted(i)) incompleteMeetings.push(i);
+                }
+                if (incompleteMeetings.length > 0) {
+                    detailContainer.innerHTML = `
+                        <div class="text-center p-10 bg-red-50 rounded-lg shadow-sm border border-red-200 mt-4">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-red-100 p-4 rounded-full text-red-600">
+                                    <i data-feather="lock" class="w-12 h-12"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-red-700 mb-2">Akses UTS Terkunci</h3>
+                            <p class="text-gray-700 text-lg">Anda belum menyelesaikan semua tugas atau kuis pada pertemuan sebelumnya.</p>
+                            <p class="text-gray-600 mt-4">Pertemuan yang belum selesai: <br><b class="text-red-600 text-xl">Meeting ${incompleteMeetings.join(', ')}</b></p>
+                            <p class="text-gray-500 mt-4 text-sm">Silakan kembali ke pertemuan tersebut dan kerjakan tugas/kuis yang tersedia untuk membuka akses Ujian Tengah Semester.</p>
+                        </div>
+                    `;
+                    feather.replace();
+                    return; // Hentikan render konten UTS
+                }
+            } 
+            // --- VALIDASI AKSES UAS (M16) ---
+            else if (meetingNumber == 16) {
+                let incompleteMeetings = [];
+                for (let i = 9; i <= 15; i++) {
+                    if (!isMeetingCompleted(i)) incompleteMeetings.push(i);
+                }
+                if (incompleteMeetings.length > 0) {
+                    detailContainer.innerHTML = `
+                        <div class="text-center p-10 bg-red-50 rounded-lg shadow-sm border border-red-200 mt-4">
+                            <div class="flex justify-center mb-4">
+                                <div class="bg-red-100 p-4 rounded-full text-red-600">
+                                    <i data-feather="lock" class="w-12 h-12"></i>
+                                </div>
+                            </div>
+                            <h3 class="text-2xl font-bold text-red-700 mb-2">Akses UAS Terkunci</h3>
+                            <p class="text-gray-700 text-lg">Anda belum menyelesaikan semua tugas atau kuis pada materi setelah UTS.</p>
+                            <p class="text-gray-600 mt-4">Pertemuan yang belum selesai: <br><b class="text-red-600 text-xl">Meeting ${incompleteMeetings.join(', ')}</b></p>
+                            <p class="text-gray-500 mt-4 text-sm">Silakan kembali ke pertemuan tersebut dan kerjakan tugas/kuis yang tersedia untuk membuka akses Ujian Akhir Semester.</p>
+                        </div>
+                    `;
+                    feather.replace();
+                    return; // Hentikan render konten UAS
+                }
+            }
+
             const rpsItem = dynamicRpsData.find(item => item.week == meetingNumber);
             const material = fullStudentData.materials.find(m => m.meeting == meetingNumber);
             const quiz = fullStudentData.quizzes.find(q => q.meeting == meetingNumber);
@@ -2470,13 +2579,15 @@ async function saveRpsChanges() {
     }
 
     // Kirim update ke Supabase
-    const { error } = await db.from('rps').update({ 
+    const { error, data } = await db.from('rps').update({ 
         topic: topic, 
         description: description 
-    }).eq('week', week);
+    }).eq('week', week).select();
 
     if (error) {
         showNotification("Error saving changes: " + error.message, "error");
+    } else if (data && data.length === 0) {
+        showNotification("Gagal mengubah modul RPS. Aksi diblokir oleh RLS Supabase.", "error");
     } else {
         showNotification("Meeting details updated successfully!");
         closeRpsEditModal();
@@ -3419,8 +3530,15 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
         // 1. SELALU mulai dengan mengecek sesi Supabase
         const { data: { session }, error: sessionError } = await db.auth.getSession();
 
-        if (sessionError) {
-            console.warn("Supabase session error:", sessionError.message);
+        if (sessionError || !session) {
+            if (sessionError) console.warn("Supabase session error:", sessionError.message);
+            
+            // Bersihkan token yang kedaluwarsa/invalid agar tidak memicu error refresh token
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('sb-')) {
+                    localStorage.removeItem(key);
+                }
+            });
             sessionStorage.removeItem('user');
             showLoginPage(true);
             return;
