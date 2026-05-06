@@ -2132,46 +2132,46 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
             currentlyViewedMeeting = meetingNumber;
             const detailContainer = document.getElementById('student-module-detail');
 
-            // --- FUNGSI CEK PRASYARAT (BARU) ---
-            function isMeetingCompleted(mNum) {
+            // --- FUNGSI CEK PRASYARAT YANG LEBIH AKURAT ---
+            function getIncompleteReasons(mNum) {
                 const meeting = fullStudentData.meetings.find(m => m.meeting_number == mNum);
-                // Jika meeting belum di-unlock dosen, anggap "lolos" agar mahasiswa tidak terjebak
-                if (!meeting) return true; 
+                if (!meeting) return null; // Belum di-unlock, tidak wajib
 
-                let requiredCount = 0;
-                let completedCount = 0;
+                let reasons = [];
 
-                // Cek apakah kuis aktif dan sudah dikerjakan (ada skor)
+                // Cek Kuis
                 if (meeting.quiz_enabled) {
-                    requiredCount++;
                     const quiz = fullStudentData.quizzes.find(q => q.meeting == mNum);
                     if (quiz) {
-                        const hasScore = fullStudentData.scores.some(s => s.quiz_id === quiz.id);
-                        if (hasScore) completedCount++;
+                        const hasScore = fullStudentData.scores.some(s => s.quiz_id === quiz.id && s.score !== null && s.score !== undefined);
+                        if (!hasScore) reasons.push("Nilai Kuis kosong");
                     }
                 }
-                // Cek apakah tugas file aktif dan sudah ada unggahan
+
+                // Cek Tugas File
                 if (meeting.assignment_enabled) {
-                    requiredCount++;
-                    const hasSubmission = fullStudentData.submissions.some(s => s.meeting_number == mNum);
-                    if (hasSubmission) completedCount++;
-                }
-                // Cek apakah tugas esai aktif dan sudah ada isian
-                if (meeting.essay_enabled) {
-                    requiredCount++;
-                    const hasEssay = fullStudentData.essaySubmissions.some(s => s.meeting_number == mNum);
-                    if (hasEssay) completedCount++;
+                    const hasScore = fullStudentData.submissions.some(s => s.meeting_number == mNum && s.score !== null && s.score !== undefined);
+                    if (!hasScore) reasons.push("Nilai Tugas File kosong");
                 }
 
-                // Selesai jika semua yang diwajibkan (aktif) sudah dikerjakan
-                return requiredCount === 0 || requiredCount === completedCount;
+                // Cek Tugas Esai
+                if (meeting.essay_enabled) {
+                    const hasScore = fullStudentData.essaySubmissions.some(s => s.meeting_number == mNum && s.score !== null && s.score !== undefined);
+                    if (!hasScore) reasons.push("Nilai Tugas Esai kosong");
+                }
+
+                if (reasons.length > 0) {
+                    return `M${mNum} (${reasons.join(', ')})`;
+                }
+                return null;
             }
 
             // --- VALIDASI AKSES UTS (M8) ---
             if (meetingNumber == 8) {
                 let incompleteMeetings = [];
                 for (let i = 1; i <= 7; i++) {
-                    if (!isMeetingCompleted(i)) incompleteMeetings.push(i);
+                    const reason = getIncompleteReasons(i);
+                    if (reason) incompleteMeetings.push(reason);
                 }
                 if (incompleteMeetings.length > 0) {
                     detailContainer.innerHTML = `
@@ -2182,20 +2182,26 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
                                 </div>
                             </div>
                             <h3 class="text-2xl font-bold text-red-700 mb-2">Akses UTS Terkunci</h3>
-                            <p class="text-gray-700 text-lg">Anda belum menyelesaikan semua tugas atau kuis pada pertemuan sebelumnya.</p>
-                            <p class="text-gray-600 mt-4">Pertemuan yang belum selesai: <br><b class="text-red-600 text-xl">Meeting ${incompleteMeetings.join(', ')}</b></p>
-                            <p class="text-gray-500 mt-4 text-sm">Silakan kembali ke pertemuan tersebut dan kerjakan tugas/kuis yang tersedia untuk membuka akses Ujian Tengah Semester.</p>
+                            <p class="text-gray-700 text-lg">Anda harus melengkapi semua nilai pada pertemuan sebelumnya.</p>
+                            <div class="mt-4 inline-block text-left bg-white p-4 rounded border border-red-100">
+                                <p class="font-semibold text-red-600 mb-2">Daftar Nilai yang Belum Lengkap:</p>
+                                <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                    ${incompleteMeetings.map(msg => `<li>${msg}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <p class="text-gray-500 mt-4 text-sm">Silakan hubungi dosen/admin jika Anda sudah mengerjakan namun nilai belum muncul di menu "My Scores".</p>
                         </div>
                     `;
                     feather.replace();
-                    return; // Hentikan render konten UTS
+                    return; // Hentikan proses render
                 }
             } 
             // --- VALIDASI AKSES UAS (M16) ---
             else if (meetingNumber == 16) {
                 let incompleteMeetings = [];
                 for (let i = 9; i <= 15; i++) {
-                    if (!isMeetingCompleted(i)) incompleteMeetings.push(i);
+                    const reason = getIncompleteReasons(i);
+                    if (reason) incompleteMeetings.push(reason);
                 }
                 if (incompleteMeetings.length > 0) {
                     detailContainer.innerHTML = `
@@ -2206,13 +2212,18 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
                                 </div>
                             </div>
                             <h3 class="text-2xl font-bold text-red-700 mb-2">Akses UAS Terkunci</h3>
-                            <p class="text-gray-700 text-lg">Anda belum menyelesaikan semua tugas atau kuis pada materi setelah UTS.</p>
-                            <p class="text-gray-600 mt-4">Pertemuan yang belum selesai: <br><b class="text-red-600 text-xl">Meeting ${incompleteMeetings.join(', ')}</b></p>
-                            <p class="text-gray-500 mt-4 text-sm">Silakan kembali ke pertemuan tersebut dan kerjakan tugas/kuis yang tersedia untuk membuka akses Ujian Akhir Semester.</p>
+                            <p class="text-gray-700 text-lg">Anda harus melengkapi semua nilai pada materi setelah UTS.</p>
+                            <div class="mt-4 inline-block text-left bg-white p-4 rounded border border-red-100">
+                                <p class="font-semibold text-red-600 mb-2">Daftar Nilai yang Belum Lengkap:</p>
+                                <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                                    ${incompleteMeetings.map(msg => `<li>${msg}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <p class="text-gray-500 mt-4 text-sm">Silakan hubungi dosen/admin jika Anda sudah mengerjakan namun nilai belum muncul di menu "My Scores".</p>
                         </div>
                     `;
                     feather.replace();
-                    return; // Hentikan render konten UAS
+                    return; // Hentikan proses render
                 }
             }
 
