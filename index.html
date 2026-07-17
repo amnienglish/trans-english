@@ -1968,8 +1968,15 @@ if (!validationError && !payload.question_text) {
                     } else if (q.question_type === 'true_false') {
                         if (userAnswer !== null && userAnswer === q.correct_answer_text) correctAnswers++;
                     } else { // fill_in_the_blank
-                        if (userAnswer && q.correct_answer_text && userAnswer.trim().toLowerCase() === q.correct_answer_text.trim().toLowerCase()) {
-                            correctAnswers++;
+                        // LAKUKAN PENGECEKAN SUBSTRING CASE INSENSITIVE DI SINI
+                        if (userAnswer && q.correct_answer_text) {
+                            const normalizedUserAnswer = userAnswer.trim().toLowerCase();
+                            const normalizedCorrectAnswer = q.correct_answer_text.trim().toLowerCase();
+                            
+                            // Gunakan .includes() agar selama jawaban mhs "mengandung" kata kunci, ia benar
+                            if (normalizedUserAnswer.includes(normalizedCorrectAnswer)) {
+                                correctAnswers++;
+                            }
                         }
                     }
                 }
