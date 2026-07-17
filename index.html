@@ -204,7 +204,7 @@
             width: 100%;
             height: 100%;
         }
-/* PERBAIKAN: Biarkan klik "tembus" melewati ikon SVG ke tombol */
+    /* PERBAIKAN: Biarkan klik "tembus" melewati ikon SVG ke tombol */
     [data-feather] {
         pointer-events: none;
     }
@@ -221,7 +221,7 @@
         <!-- Login Page -->
         <div id="login-page" class="flex flex-col items-center justify-center min-h-screen p-4 overflow-y-auto">
             
-            <!-- Announcement Banner (Muncul jika is_active = true) -->
+            <!-- Announcement Banner -->
             <div id="login-announcement" class="w-full max-w-md glass-card rounded-lg shadow-xl mb-6 p-5 hidden" data-aos="fade-down">
                 <div class="flex items-center mb-2 border-b border-gray-400 border-opacity-30 pb-2">
                     <i data-feather="megaphone" class="text-yellow-400 mr-2 w-5 h-5"></i>
@@ -327,7 +327,6 @@
             </div>
         </div>
 
-
         <!-- Lecturer Dashboard -->
         <div id="lecturer-dashboard" class="hidden flex min-h-screen bg-slate-50">
             <!-- Sidebar -->
@@ -353,7 +352,6 @@
                     <a href="#" class="lecturer-sidebar-link flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-content="lecturer-scores-content">
                         <i data-feather="award" class="w-5 h-5 mr-3"></i> Scores
                     </a>
-                    <!-- MENU BARU: Pengumuman -->
                     <a href="#" class="lecturer-sidebar-link flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-content="lecturer-announcement-content">
                         <i data-feather="megaphone" class="w-5 h-5 mr-3"></i> Pengumuman
                     </a>
@@ -426,7 +424,6 @@
                              <div class="flex items-center">
                                  <label for="submission-meeting-select" class="text-sm font-medium text-gray-700 mr-2 whitespace-nowrap">Select Meeting:</label>
                                  <select id="submission-meeting-select" class="rounded-md border-gray-300 shadow-sm mr-4"></select>
-                                 <!-- Tombol Delete All Baru -->
                                  <button id="delete-all-submissions-btn" class="bg-red-600 text-white px-3 py-2 rounded-md hover:bg-red-700 transition-all flex items-center shadow-sm whitespace-nowrap text-sm">
                                      <i data-feather="trash-2" class="w-4 h-4 mr-2"></i> Hapus Semua (Meeting Ini)
                                  </button>
@@ -440,7 +437,8 @@
                                      <tr>
                                          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NRP</th>
                                          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File</th>
+                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submission</th>
+                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
                                      </tr>
                                  </thead>
                                  <tbody class="bg-white divide-y divide-gray-200" id="submission-table-body"></tbody>
@@ -459,7 +457,6 @@
                                  <label for="score-meeting-select" class="text-sm font-medium text-gray-700 mr-2 whitespace-nowrap">Select Meeting:</label>
                                  <select id="score-meeting-select" class="rounded-md border-gray-300 shadow-sm mr-4"></select>
                                  
-                                 <!-- Tombol Reset & Export -->
                                  <div class="flex space-x-2">
                                      <button id="reset-all-scores-btn" class="bg-red-600 text-white px-3 py-2 rounded-md hover:bg-red-700 transition-all flex items-center shadow-sm whitespace-nowrap text-sm">
                                          <i data-feather="trash-2" class="w-4 h-4 mr-2"></i> Reset Semua Nilai
@@ -485,7 +482,7 @@
                      </div>
                  </div>
 
-                 <!-- NEW CONTENT AREA: Pengumuman -->
+                 <!-- Pengumuman Area -->
                  <div id="lecturer-announcement-content" class="lecturer-tab-content hidden">
                      <div class="flex justify-between items-center mb-6">
                          <h1 class="text-3xl font-bold text-gray-800">Manajemen Pengumuman</h1>
@@ -503,7 +500,6 @@
                          <div class="mb-6">
                              <label class="block text-sm font-semibold text-gray-700 mb-2">Teks Pengumuman</label>
                              <p class="text-xs text-gray-500 mb-2">Tuliskan instruksi atau pengumuman penting di sini.</p>
-                             <!-- Editor Quill untuk pengumuman -->
                              <div id="announcement-editor-container" class="bg-white" style="height: 200px;"></div>
                          </div>
                          <button id="save-announcement-btn" class="bg-indigo-600 text-white px-5 py-2.5 rounded-md hover:bg-indigo-700 font-semibold transition-all flex items-center shadow-md">
@@ -512,7 +508,7 @@
                      </div>
                  </div>
 
-                 <!-- NEW CONTENT AREA -->
+                 <!-- Komting Area -->
                  <div id="lecturer-komting-content" class="lecturer-tab-content hidden">
                      <!-- Content will be rendered by JavaScript -->
                  </div>
@@ -613,7 +609,6 @@
                             <button type="button" id="add-passage" class="text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center">
                                 <i data-feather="file-text" class="mr-2"></i> Add Reading Passage
                             </button>
-                            <!-- Tombol baru untuk menambah media -->
                             <button type="button" id="add-media" class="text-green-600 hover:text-green-800 font-medium text-sm flex items-center">
                                 <i data-feather="play-circle" class="mr-2"></i> Add Audio/Video
                             </button>
@@ -646,6 +641,33 @@
                     <div id="quiz-taker-footer" class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button type="button" id="submit-quiz-answers" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm">Submit</button>
                         <button type="button" id="close-quiz-taker" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit RPS Modal -->
+        <div id="rps-edit-modal" class="modal fixed inset-0 overflow-y-auto hidden">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="modal-backdrop"></div>
+                <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full z-50">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="rps-modal-title">Edit Meeting Details</h3>
+                        <form id="rps-edit-form" class="mt-4 space-y-4">
+                            <input type="hidden" id="rps-week-id">
+                            <div>
+                                <label for="rps-topic" class="block text-sm font-medium text-gray-700">Meeting Title (Topic)</label>
+                                <input type="text" id="rps-topic" required class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            </div>
+                            <div>
+                                <label for="rps-description" class="block text-sm font-medium text-gray-700">Description</label>
+                                <textarea id="rps-description" rows="3" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse items-center">
+                        <button type="button" id="save-rps-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3">Save Changes</button>
+                        <button type="button" id="cancel-rps-btn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -710,22 +732,23 @@
                 </div>
             </div>
         </div>
-<div id="essay-viewer-modal" class="modal fixed inset-0 overflow-y-auto hidden">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="modal-backdrop"></div>
-            <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-2xl sm:w-full z-50">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="essay-viewer-title">Student Essay</h3>
-                    <p class="text-sm text-gray-500 mb-4" id="essay-viewer-student"></p>
-                    <div class="prose max-w-none bg-gray-50 p-4 rounded-md border min-h-[300px] max-h-[60vh] overflow-y-auto" id="essay-viewer-content">
+        
+        <div id="essay-viewer-modal" class="modal fixed inset-0 overflow-y-auto hidden">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="modal-backdrop"></div>
+                <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-2xl sm:w-full z-50">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="essay-viewer-title">Student Essay</h3>
+                        <p class="text-sm text-gray-500 mb-4" id="essay-viewer-student"></p>
+                        <div class="prose max-w-none bg-gray-50 p-4 rounded-md border min-h-[300px] max-h-[60vh] overflow-y-auto" id="essay-viewer-content">
+                        </div>
                     </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" id="close-essay-viewer-btn" class="mt-3 w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3">Close</button>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="button" id="close-essay-viewer-btn" class="mt-3 w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     
     <div id="notification"></div>
@@ -780,14 +803,15 @@
         let isKomtingEditMode = false; // To track komting edit state
 
         async function fetchRpsData() {
-    const { data, error } = await db.from('rps').select('*').order('week');
-    if (error) {
-        console.error("Error fetching RPS data:", error);
-        showNotification("Error loading RPS data. Please refresh.", "error");
-    } else {
-        dynamicRpsData = data; // Ini akan mengisi variabel global
-    }
-}
+            const { data, error } = await db.from('rps').select('*').order('week');
+            if (error) {
+                console.error("Error fetching RPS data:", error);
+                showNotification("Error loading RPS data. Please refresh.", "error");
+            } else {
+                dynamicRpsData = data; // Ini akan mengisi variabel global
+            }
+        }
+        
         // --- UTILITY & PAGE VISIBILITY FUNCTIONS ---
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
@@ -878,27 +902,26 @@
             }
         }
         
-       async function showLecturerDashboard(show) {
-    const lecturerDashboard = document.getElementById('lecturer-dashboard');
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    
-    if (show && user && user.role === 'lecturer') {
-        lecturerDashboard.classList.remove('hidden');
+        async function showLecturerDashboard(show) {
+            const lecturerDashboard = document.getElementById('lecturer-dashboard');
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            
+            if (show && user && user.role === 'lecturer') {
+                lecturerDashboard.classList.remove('hidden');
 
-        // DIPINDAHKAN KE SINI: Isi dropdown SEBELUM merender modul
-        populateMeetingOptions('quiz-meeting-number');
-        populateMeetingOptions('material-meeting-number');
-        populateMeetingOptions('attendance-meeting-select');
-        populateMeetingOptions('submission-meeting-select');
-        populateMeetingOptions('score-meeting-select');
+                // DIPINDAHKAN KE SINI: Isi dropdown SEBELUM merender modul
+                populateMeetingOptions('quiz-meeting-number');
+                populateMeetingOptions('material-meeting-number');
+                populateMeetingOptions('attendance-meeting-select');
+                populateMeetingOptions('submission-meeting-select');
+                populateMeetingOptions('score-meeting-select');
 
-        await renderLecturerModules();
-        feather.replace();
-    } else {
-        lecturerDashboard.classList.add('hidden');
-        // KOSONGKAN BLOK INI
-    }
-}
+                await renderLecturerModules();
+                feather.replace();
+            } else {
+                lecturerDashboard.classList.add('hidden');
+            }
+        }
 
         function updateClock() {
             const studentClock = document.getElementById('student-clock');
@@ -1245,7 +1268,6 @@
             // Set a default height for the editor
             document.querySelector(`#${editorId} .ql-editor`).style.minHeight = '150px';
 
-
             div.querySelector('.remove-item-btn').addEventListener('click', () => {
                 delete quizQuillEditors[editorId];
                 div.remove();
@@ -1319,7 +1341,7 @@
             div.dataset.type = 'question';
             const questionType = (questionData?.question_type === 'multiple_choice' || questionData?.question_type === 'fill_in_the_blank' || questionData?.question_type === 'true_false' || questionData?.question_type === 'matching')
                                  ? questionData.question_type
-                                 : 'multiple_choice'; // Default jika tipe tidak valid atau null
+                                 : 'multiple_choice';
 
 
             let imagePreviewHTML = '';
@@ -1335,7 +1357,6 @@
                 `;
             }
 
-            // Memberi ID unik pada name radio button tipe pertanyaan
             const uniqueRadioName = `q-type-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
 
 
@@ -1437,7 +1458,6 @@
         }
 
         async function saveQuiz() {
-            console.log("[SaveQuiz Debug] Starting saveQuiz function..."); // Log awal fungsi
             const quizId = document.getElementById('quiz-id').value;
             const title = document.getElementById('quiz-title').value;
             const subtitle = document.getElementById('quiz-subtitle').value;
@@ -1451,13 +1471,10 @@
             }
 
             try {
-                // 1. Upsert the quiz details first to get a valid quiz ID.
                 let quizDetails = { id: quizId || undefined, title, subtitle, meeting, duration_minutes };
-                console.log("[SaveQuiz Debug] Upserting quiz details:", quizDetails);
                 let { data: quizData, error: quizError } = await db.from('quizzes').upsert(quizDetails).select().single();
 
                 if (quizError && quizError.message.includes('duration_minutes')) {
-                    console.warn("[SaveQuiz Debug] Column 'duration_minutes' not found. Retrying without it.");
                     showNotification("Fitur timer belum aktif di database. Kuis disimpan tanpa timer.", 'error');
                     delete quizDetails.duration_minutes;
                     const retryResult = await db.from('quizzes').upsert(quizDetails).select().single();
@@ -1469,25 +1486,18 @@
                 if (!quizData) {
                     throw new Error("Gagal menyimpan detail kuis. Aksi diblokir oleh RLS Supabase.");
                 }
-                 console.log("[SaveQuiz Debug] Quiz details saved/updated. Quiz ID:", quizData.id);
-
 
                 const currentQuizId = quizData.id;
                 const itemElements = Array.from(document.getElementById('questions-container').children);
-                console.log(`[SaveQuiz Debug] Found ${itemElements.length} items in the container.`);
                 let validationError = false;
 
-                // 2. Build a list of payloads for all items in the form.
                 const preUploadPayloads = await Promise.all(itemElements.map(async (el, index) => {
-                    console.log(`[SaveQuiz Debug] Processing item at index ${index}...`);
                     if (validationError) return null;
 
                     const idValue = el.querySelector('.item-id')?.value;
                     const parsedId = idValue ? parseInt(idValue, 10) : NaN;
                     const type = el.dataset.type;
-                     console.log(`  [Debug Index ${index}] ID: ${idValue}, Parsed ID: ${parsedId}, Type: ${type}`);
                     
-                    // --- Payload default ---
                     let payload = {
                         id: !isNaN(parsedId) ? parsedId : undefined,
                         quiz_id: currentQuizId,
@@ -1521,7 +1531,6 @@
                             showNotification(`Editor for passage not found at index ${index}.`, 'error');
                             validationError = true;
                         }
-                    // --- Upload dan simpan file media ke question_text ---
                     } else if (type === 'media') {
                         payload.question_type = 'media_embed';
                         const audioFile = el.querySelector('.media-audio-file')?.files[0];
@@ -1531,7 +1540,6 @@
                         
                         let mediaUrl = existingMediaUrl;
                         
-                        // Upload audio file jika ada
                         if (audioFile) {
                             const audioPath = `public/quiz-media/${Date.now()}-${audioFile.name}`;
                             const { error: uploadError } = await db.storage.from('materials').upload(audioPath, audioFile);
@@ -1543,7 +1551,6 @@
                                 mediaUrl = urlData.publicUrl;
                             }
                         }
-                        // Upload video file jika ada
                         else if (videoFile) {
                             const videoPath = `public/quiz-media/${Date.now()}-${videoFile.name}`;
                             const { error: uploadError } = await db.storage.from('materials').upload(videoPath, videoFile);
@@ -1555,47 +1562,30 @@
                                 mediaUrl = urlData.publicUrl;
                             }
                         }
-                        // Gunakan YouTube URL jika ada
                         else if (youtubeUrl) {
                             mediaUrl = youtubeUrl;
                         }
                         
                         payload.question_text = mediaUrl;
 
-// Cek ini HANYA jika tidak ada error upload sebelumnya DAN mediaUrl masih kosong
-if (!validationError && !payload.question_text) { 
-    showNotification(`Please upload a media file or provide YouTube URL at index ${index}.`, 'error');
-    validationError = true;
-}
+                        if (!validationError && !payload.question_text) { 
+                            showNotification(`Please upload a media file or provide YouTube URL at index ${index}.`, 'error');
+                            validationError = true;
+                        }
                     } else if (type === 'question') {
                         payload.question_text = el.querySelector('.question-text')?.value;
                         payload.question_type = el.querySelector('.question-type-selector:checked').value;
-                         console.log(`  [Debug Index ${index}] Question Type selected: ${payload.question_type}`);
 
                         if (payload.question_type === 'multiple_choice') {
-                             // --- Pastikan selector scoped ke elemen 'el' ---
                             const correctOptionInput = el.querySelector('.correct-option:checked');
                             const correctOptionValue = correctOptionInput?.value;
                             payload.options = Array.from(el.querySelectorAll('.option-text')).map(input => input.value);
-                             // --- LOGGING TAMBAHAN SPESIFIK UNTUK INDEX 16 ---
-                            if (index === 16) {
-                                console.log(`  [MC Specific Debug - Index 16] Raw correctOptionInput element:`, correctOptionInput);
-                                console.log(`  [MC Specific Debug - Index 16] Raw correctOptionValue from element:`, correctOptionValue);
-                                console.log(`  [MC Specific Debug - Index 16] Raw options elements:`, el.querySelectorAll('.option-text'));
-                                console.log(`  [MC Specific Debug - Index 16] Options values mapped:`, payload.options);
-                            }
-
-                            console.log(`  [MC Debug - Index ${index}] Options found:`, payload.options);
-                            console.log(`  [MC Debug - Index ${index}] Correct option input checked: `, correctOptionInput);
-                            console.log(`  [MC Debug - Index ${index}] Correct option value from input: ${correctOptionValue}`);
 
                             if (!payload.question_text || correctOptionValue === undefined || payload.options.some(opt => !opt)) {
-                                showNotification(`Please fill all fields for multiple choice question #${index + 1} (Internal Index: ${index})`, 'error');
-                                console.error(`Validation failed for MC question at index ${index}: text=${payload.question_text}, correctOption=${correctOptionValue}, options=${JSON.stringify(payload.options)}`);
+                                showNotification(`Please fill all fields for multiple choice question #${index + 1}`, 'error');
                                 validationError = true;
                             }
                             payload.correct_option = correctOptionValue !== undefined ? parseInt(correctOptionValue, 10) : null;
-                             console.log(`  [MC Debug - Index ${index}] Payload correct_option set to: ${payload.correct_option}`);
 
                         } else if (payload.question_type === 'true_false') {
                             payload.correct_answer_text = el.querySelector('.tf-correct-answer').value;
@@ -1616,7 +1606,7 @@ if (!validationError && !payload.question_text) {
                                 showNotification(`Harap isi teks soal dan minimal 2 pasang jawaban untuk pertanyaan Matching #${index + 1}`, 'error');
                                 validationError = true;
                             }
-                        } else { // fill_in_the_blank
+                        } else { 
                             payload.correct_answer_text = el.querySelector('.correct-answer-text').value;
                             if (!payload.question_text || !payload.correct_answer_text) {
                                 showNotification(`Please fill all fields for fill in the blank question #${index + 1}`, 'error');
@@ -1637,81 +1627,49 @@ if (!validationError && !payload.question_text) {
                             payload.image_url = existingImageUrl;
                         }
                     }
-                    // --- Log payload sebelum return ---
-                    console.log(`[SaveQuiz Debug] Payload for index ${index} (type: ${type}):`, JSON.parse(JSON.stringify(payload)));
                     return payload;
                 }));
 
-
                 if (validationError) {
-                     console.error("[SaveQuiz Debug] Validation failed. Aborting save.");
                      return;
                 }
 
                 const finalPayloads = preUploadPayloads.filter(p => p !== null);
-                console.log("[SaveQuiz Debug] Final payloads to be processed:", finalPayloads);
-
                 
-                // 3. Separate payloads for items that need to be inserted vs. updated.
                 const itemsToInsert = finalPayloads.filter(p => p.id === undefined).map(({ id, ...rest }) => rest);
                 const itemsToUpdate = finalPayloads.filter(p => p.id !== undefined);
 
-                 console.log("[SaveQuiz Debug] Items to insert:", itemsToInsert);
-                 console.log("[SaveQuiz Debug] Items to update:", itemsToUpdate);
-
-
-                // 4. Perform inserts and updates.
                 const insertPromise = itemsToInsert.length > 0 ? db.from('questions').insert(itemsToInsert).select('id') : Promise.resolve({ data: [], error: null });
                 const updatePromise = itemsToUpdate.length > 0 ? db.from('questions').upsert(itemsToUpdate).select('id') : Promise.resolve({ data: [], error: null });
 
                 const [insertResult, updateResult] = await Promise.all([insertPromise, updatePromise]);
 
-                if (insertResult.error) {
-                    console.error("[SaveQuiz Debug] Insert error:", insertResult.error);
-                    throw insertResult.error;
-                }
-                 if (updateResult.error) {
-                    console.error("[SaveQuiz Debug] Update error:", updateResult.error);
-                    throw updateResult.error;
-                }
+                if (insertResult.error) throw insertResult.error;
+                if (updateResult.error) throw updateResult.error;
                  if (itemsToInsert.length > 0 && (!insertResult.data || insertResult.data.length === 0)) {
                     throw new Error("Gagal menambah soal. Aksi diblokir oleh RLS Supabase.");
                 }
                  if (itemsToUpdate.length > 0 && (!updateResult.data || updateResult.data.length === 0)) {
                     throw new Error("Gagal mengubah soal. Aksi diblokir oleh RLS Supabase.");
                 }
-                 console.log("[SaveQuiz Debug] Insert result:", insertResult.data);
-                 console.log("[SaveQuiz Debug] Update result:", updateResult.data);
 
-
-                // 5. Build a list of all item IDs that should be in the database.
                 const insertedIds = insertResult.data ? insertResult.data.map(d => d.id) : [];
                 const updatedIds = updateResult.data ? updateResult.data.map(d => d.id) : [];
                 const finalIds = [...insertedIds, ...updatedIds];
-                 console.log("[SaveQuiz Debug] Final IDs in DB for this quiz:", finalIds);
-
                 
-                // 6. Delete any items from the database that are no longer in the form.
-                if (quizId) { // Only run deletion for existing quizzes
+                if (quizId) {
                     const { data: existingItems, error: fetchError } = await db.from('questions').select('id').eq('quiz_id', currentQuizId);
                     if (fetchError) throw fetchError;
 
                     const existingItemIds = existingItems ? existingItems.map(q => q.id) : [];
                     const idsToDelete = existingItemIds.filter(id => !finalIds.includes(id));
-                     console.log("[SaveQuiz Debug] Existing item IDs:", existingItemIds);
-                     console.log("[SaveQuiz Debug] IDs to delete:", idsToDelete);
-
                     
                     if (idsToDelete.length > 0) {
                         const { error: deleteError, data: deleteData } = await db.from('questions').delete().in('id', idsToDelete).select();
-                        if (deleteError) {
-                             console.error("[SaveQuiz Debug] Delete error:", deleteError);
-                             throw deleteError;
-                        }
+                        if (deleteError) throw deleteError;
                         if (deleteData && deleteData.length === 0) {
                              throw new Error("Gagal menghapus soal lama. Aksi diblokir oleh RLS Supabase.");
                         }
-                         console.log("[SaveQuiz Debug] Successfully deleted items:", idsToDelete);
                     }
                 }
 
@@ -1724,8 +1682,8 @@ if (!validationError && !payload.question_text) {
                 showNotification('Error saving quiz: ' + (error.message || 'Unknown error'), 'error');
             }
         }
-        // ... (sisa kode JavaScript tidak berubah) ...
-         async function deleteQuiz(quizId) {
+
+        async function deleteQuiz(quizId) {
             if (confirm('Are you sure you want to delete this quiz and all its questions? This action cannot be undone.')) {
                 const { error, data } = await db.from('quizzes').delete().eq('id', quizId).select();
                 if (error) {
@@ -1804,14 +1762,12 @@ if (!validationError && !payload.question_text) {
                                      <h4 class="font-semibold text-gray-800 mb-2">Reading Passage:</h4>
                                      <div class="ql-editor">${item.question_text}</div>
                                    </div>`;
-                // Menampilkan media player dari question_text
                 } else if (item.question_type === 'media_embed' && item.question_text) {
                     formHTML += `<div class="pt-4 border-t mt-4 space-y-4">`;
                     const mediaUrl = item.question_text;
                     const mediaType = getMediaType(mediaUrl);
 
                     if (mediaType === 'audio') {
-                        // Detect correct MIME type based on file extension
                         let mimeType = 'audio/mpeg';
                         if (mediaUrl.match(/\.mp3$/i)) mimeType = 'audio/mpeg';
                         else if (mediaUrl.match(/\.wav$/i)) mimeType = 'audio/wav';
@@ -1840,7 +1796,6 @@ if (!validationError && !payload.question_text) {
                             </div>`;
                         formHTML += `</div>`;
                     } else if (mediaType === 'video') {
-                        // Detect correct video MIME type
                         let videoMimeType = 'video/mp4';
                         if (mediaUrl.match(/\.mp4$/i)) videoMimeType = 'video/mp4';
                         else if (mediaUrl.match(/\.webm$/i)) videoMimeType = 'video/webm';
@@ -1858,7 +1813,7 @@ if (!validationError && !payload.question_text) {
                         formHTML += `</div>`;
                     }
                     formHTML += `</div>`;
-                } else if (item.question_type === 'multiple_choice' || item.question_type === 'fill_in_the_blank' || item.question_type === 'true_false' || item.question_type === 'matching') { // Only render actual questions
+                } else if (item.question_type === 'multiple_choice' || item.question_type === 'fill_in_the_blank' || item.question_type === 'true_false' || item.question_type === 'matching') {
                     questionCounter++;
                     formHTML += `<div class="pt-4 border-t mt-4">`;
                     if (item.image_url) {
@@ -1878,7 +1833,6 @@ if (!validationError && !payload.question_text) {
                     } else if (item.question_type === 'matching') {
                         const pairs = item.options.map(opt => opt.split('|~|'));
                         const rightOptions = pairs.map(p => p[1]);
-                        // Shuffle right options
                         for (let i = rightOptions.length - 1; i > 0; i--) {
                             const j = Math.floor(Math.random() * (i + 1));
                             [rightOptions[i], rightOptions[j]] = [rightOptions[j], rightOptions[i]];
@@ -1915,11 +1869,9 @@ if (!validationError && !payload.question_text) {
                  submitQuizAnswersBtn.parentNode.replaceChild(newSubmitBtn, submitQuizAnswersBtn);
                  newSubmitBtn.addEventListener('click', () => submitQuiz(quiz.id, questions));
             } else {
-                // If there are only non-question items (instructions, media), hide the submit button
                 submitQuizAnswersBtn.classList.add('hidden');
             }
         }
-
 
         async function submitQuiz(quizId, questions) {
             if (quizTimerInterval) clearInterval(quizTimerInterval);
@@ -1933,18 +1885,14 @@ if (!validationError && !payload.question_text) {
             const form = document.getElementById('quiz-taker-form');
             if (!form) return;
 
-            // Handle the case where there are no questions to answer
             if (questions.length === 0) {
                  document.getElementById('quiz-taker-content').innerHTML = `<div class="text-center">
                                                                              <h2 class="text-2xl font-bold text-indigo-600">Quiz Viewed</h2>
                                                                              <p class="mt-2 text-lg text-gray-700">There were no questions to answer in this quiz.</p>
                                                                           </div>`;
                  document.getElementById('submit-quiz-answers').classList.add('hidden');
-                 // Optionally, you could still record completion without a score, or handle as needed
-                 // await renderStudentUnifiedView();
                  return;
             }
-
 
             const formData = new FormData(form);
             let correctAnswers = 0;
@@ -1959,7 +1907,6 @@ if (!validationError && !payload.question_text) {
                             correctForThisQuestion++;
                         }
                     });
-                    // Kalkulasi pecahan bobot jika sebagian matching benar
                     correctAnswers += (correctForThisQuestion / pairs.length);
                 } else {
                     const userAnswer = formData.get(`q-${q.id}`);
@@ -1968,12 +1915,10 @@ if (!validationError && !payload.question_text) {
                     } else if (q.question_type === 'true_false') {
                         if (userAnswer !== null && userAnswer === q.correct_answer_text) correctAnswers++;
                     } else { // fill_in_the_blank
-                        // LAKUKAN PENGECEKAN SUBSTRING CASE INSENSITIVE DI SINI
                         if (userAnswer && q.correct_answer_text) {
                             const normalizedUserAnswer = userAnswer.trim().toLowerCase();
                             const normalizedCorrectAnswer = q.correct_answer_text.trim().toLowerCase();
                             
-                            // Gunakan .includes() agar selama jawaban mhs "mengandung" kata kunci, ia benar
                             if (normalizedUserAnswer.includes(normalizedCorrectAnswer)) {
                                 correctAnswers++;
                             }
@@ -1982,11 +1927,9 @@ if (!validationError && !payload.question_text) {
                 }
             });
 
-            // Avoid division by zero if questions array somehow becomes empty after filtering
             const score = questions.length > 0 ? Math.round((correctAnswers / questions.length) * 100) : 0;
             
             const { error } = await db.from('scores').upsert({ student_id: user.id, quiz_id: quizId, score }, { onConflict: 'student_id, quiz_id' });
-
 
             if (error) {
                 showNotification('Error submitting score: ' + error.message, 'error');
@@ -2076,18 +2019,15 @@ if (!validationError && !payload.question_text) {
             listContainer.innerHTML = '<div>Loading modules...</div>';
             detailContainer.innerHTML = `<p class="text-center text-gray-500">Select a module from the left to view its content.</p>`;
 
-            // 1. PASTIKAN "essaySubmissionsRes" SUDAH DITAMBAHKAN DI DAFTAR INI
-const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissionsRes, essaySubmissionsRes] = await Promise.all([
-    db.from('meetings').select('*').eq('is_unlocked', true),
-    db.from('materials').select('*'),
-    db.from('quizzes').select('*'),
-    db.from('scores').select('*').eq('student_id', user.id),
-    db.from('attendance').select('*').eq('student_id', user.id),
-    db.from('submissions').select('*').eq('student_id', user.id),
-
-    // 2. PASTIKAN QUERY INI SUDAH ADA DI AKHIR DAFTAR
-    db.from('essay_submissions').select('*').eq('student_id', user.id)
-]);
+            const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissionsRes, essaySubmissionsRes] = await Promise.all([
+                db.from('meetings').select('*').eq('is_unlocked', true),
+                db.from('materials').select('*'),
+                db.from('quizzes').select('*'),
+                db.from('scores').select('*').eq('student_id', user.id),
+                db.from('attendance').select('*').eq('student_id', user.id),
+                db.from('submissions').select('*').eq('student_id', user.id),
+                db.from('essay_submissions').select('*').eq('student_id', user.id)
+            ]);
             
             fullStudentData.meetings = meetingsRes.data || [];
             fullStudentData.materials = materialsRes.data || [];
@@ -2095,7 +2035,7 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
             fullStudentData.scores = scoresRes.data || [];
             fullStudentData.attendance = attendanceRes.data || [];
             fullStudentData.submissions = submissionsRes.data || [];
-            fullStudentData.essaySubmissions = essaySubmissionsRes.data || []; // Simpan data esai yang sudah diambil
+            fullStudentData.essaySubmissions = essaySubmissionsRes.data || [];
             
             const unlockedMeetingNumbers = fullStudentData.meetings.map(m => m.meeting_number);
             const visibleRpsData = dynamicRpsData.filter(item => unlockedMeetingNumbers.includes(item.week));
@@ -2139,14 +2079,12 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
             currentlyViewedMeeting = meetingNumber;
             const detailContainer = document.getElementById('student-module-detail');
 
-            // --- FUNGSI CEK PRASYARAT YANG LEBIH AKURAT ---
             function getIncompleteReasons(mNum) {
                 const meeting = fullStudentData.meetings.find(m => m.meeting_number == mNum);
                 if (!meeting) return null; // Belum di-unlock, tidak wajib
 
                 let reasons = [];
 
-                // Cek Kuis
                 if (meeting.quiz_enabled) {
                     const quiz = fullStudentData.quizzes.find(q => q.meeting == mNum);
                     if (quiz) {
@@ -2155,13 +2093,11 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
                     }
                 }
 
-                // Cek Tugas File
                 if (meeting.assignment_enabled) {
                     const hasScore = fullStudentData.submissions.some(s => s.meeting_number == mNum && s.score !== null && s.score !== undefined);
                     if (!hasScore) reasons.push("Nilai Tugas File kosong");
                 }
 
-                // Cek Tugas Esai
                 if (meeting.essay_enabled) {
                     const hasScore = fullStudentData.essaySubmissions.some(s => s.meeting_number == mNum && s.score !== null && s.score !== undefined);
                     if (!hasScore) reasons.push("Nilai Tugas Esai kosong");
@@ -2246,8 +2182,7 @@ const [meetingsRes, materialsRes, quizzesRes, scoresRes, attendanceRes, submissi
                 .filter(s => s.meeting_number == meetingNumber)
                 .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by most recent first
             const submission = submissionsForMeeting.length > 0 ? submissionsForMeeting[0] : null;
-            // Ambil data esai yang sudah disimpan (jika ada) untuk meeting ini
-const essaySubmission = fullStudentData.essaySubmissions.find(e => e.meeting_number == meetingNumber);
+            const essaySubmission = fullStudentData.essaySubmissions.find(e => e.meeting_number == meetingNumber);
 
             let meetingTitle = `Meeting ${meetingNumber}: ${rpsItem.topic}`;
             if (meetingNumber == 8) meetingTitle = 'MIDTERM EXAM (UTS)';
@@ -2294,7 +2229,6 @@ const essaySubmission = fullStudentData.essaySubmissions.find(e => e.meeting_num
                                 </div>
                             `;
                         } else {
-                             // Fallback for non-youtube links
                              mediaHTML += `
                                 <div class="mt-6">
                                     <h4 class="text-lg font-semibold text-gray-700 mb-2">Video Link</h4>
@@ -2353,7 +2287,6 @@ const essaySubmission = fullStudentData.essaySubmissions.find(e => e.meeting_num
                     }
                 }
 
-                // Submission Section
                 if (meetingData?.assignment_enabled) {
                     hasContent = true;
                     if (material || quiz) moduleHTML += '<hr class="my-8">';
@@ -2372,36 +2305,33 @@ const essaySubmission = fullStudentData.essaySubmissions.find(e => e.meeting_num
                             <button data-meeting-number="${meetingNumber}" class="submit-assignment-btn mt-4 bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 font-semibold">Upload File</button>`;
                     }
                     moduleHTML += `</div>`;
-                
                 }
-                // --- AWAL BLOK ESSAY BARU ---
-if (meetingData?.essay_enabled) {
-    hasContent = true;
-    // Beri pemisah jika ada konten lain di atasnya
-    if (material || quiz || meetingData?.assignment_enabled) {
-        moduleHTML += '<hr class="my-8">';
-    }
 
-    moduleHTML += `
-        <div class="bg-purple-50 rounded-lg p-6 shadow-sm">
-            <h4 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                <i data-feather="edit" class="text-purple-600 mr-3"></i>Type Your Answer Here
-            </h4>
-            <p class="text-gray-700 mb-4">Please type down your answer here.</p>
+                if (meetingData?.essay_enabled) {
+                    hasContent = true;
+                    if (material || quiz || meetingData?.assignment_enabled) {
+                        moduleHTML += '<hr class="my-8">';
+                    }
 
-            <textarea id="essay-textarea-${meetingNumber}" class="w-full h-80 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Mulai tulis esai Anda di sini...">${essaySubmission?.content || ''}</textarea>
+                    moduleHTML += `
+                        <div class="bg-purple-50 rounded-lg p-6 shadow-sm">
+                            <h4 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                                <i data-feather="edit" class="text-purple-600 mr-3"></i>Type Your Answer Here
+                            </h4>
+                            <p class="text-gray-700 mb-4">Please type down your answer here.</p>
 
-            <div class="mt-4 flex justify-end items-center">
-                <span id="essay-save-status-${meetingNumber}" class="text-sm text-gray-500 mr-4"></span>
+                            <textarea id="essay-textarea-${meetingNumber}" class="w-full h-80 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" placeholder="Mulai tulis esai Anda di sini...">${essaySubmission?.content || ''}</textarea>
 
-                <button data-meeting-number="${meetingNumber}" class="save-essay-btn bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 font-semibold transition-all">
-                    Save
-                </button>
-            </div>
-        </div>
-    `;
-}
-// --- AKHIR BLOK ESSAY BARU ---
+                            <div class="mt-4 flex justify-end items-center">
+                                <span id="essay-save-status-${meetingNumber}" class="text-sm text-gray-500 mr-4"></span>
+
+                                <button data-meeting-number="${meetingNumber}" class="save-essay-btn bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 font-semibold transition-all">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
 
                 if (!hasContent) {
                     moduleHTML += '<p class="text-center text-gray-400 italic mt-8">Content for this module will be available soon.</p>';
@@ -2438,14 +2368,13 @@ if (meetingData?.essay_enabled) {
                     handleFileSubmission(meetingNum, fileInput);
                 });
             });
-             // LISTENER UNTUK TOMBOL SIMPAN ESSAY BARU
-detailContainer.querySelectorAll('.save-essay-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const meetingNum = e.currentTarget.dataset.meetingNumber;
-        const textarea = document.getElementById(`essay-textarea-${meetingNum}`);
-        handleEssaySubmission(meetingNum, textarea);
-    });
-});
+            detailContainer.querySelectorAll('.save-essay-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const meetingNum = e.currentTarget.dataset.meetingNumber;
+                    const textarea = document.getElementById(`essay-textarea-${meetingNum}`);
+                    handleEssaySubmission(meetingNum, textarea);
+                });
+            });
         }
 
         async function handleFileSubmission(meetingNumber, fileInput) {
@@ -2482,7 +2411,6 @@ detailContainer.querySelectorAll('.save-essay-btn').forEach(btn => {
                 file_url: urlData.publicUrl
             };
             
-            // Check if a submission for this student and meeting already exists.
             const { data: existingSubmission, error: fetchError } = await db
                 .from('submissions')
                 .select('id')
@@ -2490,7 +2418,6 @@ detailContainer.querySelectorAll('.save-essay-btn').forEach(btn => {
                 .eq('meeting_number', meetingNumber)
                 .single();
 
-            // If there's an error and it's not the "no rows found" error, show it.
             if (fetchError && fetchError.code !== 'PGRST116') {
                 showNotification('Error checking submission: ' + fetchError.message, 'error');
                 return;
@@ -2499,17 +2426,15 @@ detailContainer.querySelectorAll('.save-essay-btn').forEach(btn => {
             let finalError;
 
             if (existingSubmission) {
-                // If it exists, update it.
                 const { error: updateError } = await db.from('submissions')
                     .update({
                         file_name: file.name,
                         file_url: urlData.publicUrl,
-                        created_at: new Date().toISOString() // Also update the timestamp
+                        created_at: new Date().toISOString()
                     })
                     .eq('id', existingSubmission.id);
                 finalError = updateError;
             } else {
-                // If it doesn't exist, insert a new one.
                 const { error: insertError } = await db.from('submissions').insert(submissionData);
                 finalError = insertError;
             }
@@ -2522,99 +2447,87 @@ detailContainer.querySelectorAll('.save-essay-btn').forEach(btn => {
             }
         }
         
-        // FUNGSI BARU UNTUK MENYIMPAN ESSAY
-async function handleEssaySubmission(meetingNumber, textarea) {
-    const { data: { user }, error: userError } = await db.auth.getUser();
-    if (userError || !user) {
-        showNotification('Sesi berakhir. Silakan login kembali.', 'error');
-        return logout();
-    }
+        async function handleEssaySubmission(meetingNumber, textarea) {
+            const { data: { user }, error: userError } = await db.auth.getUser();
+            if (userError || !user) {
+                showNotification('Sesi berakhir. Silakan login kembali.', 'error');
+                return logout();
+            }
 
-    const content = textarea.value;
-    const statusEl = document.getElementById(`essay-save-status-${meetingNumber}`);
-    statusEl.textContent = 'Menyimpan...';
-    statusEl.classList.remove('text-red-500');
-    statusEl.classList.remove('text-green-500');
+            const content = textarea.value;
+            const statusEl = document.getElementById(`essay-save-status-${meetingNumber}`);
+            statusEl.textContent = 'Menyimpan...';
+            statusEl.classList.remove('text-red-500');
+            statusEl.classList.remove('text-green-500');
 
-    // Gunakan upsert() untuk membuat baru ATAU update jika sudah ada
-    const { error } = await db.from('essay_submissions').upsert({
-        student_id: user.id,
-        meeting_number: meetingNumber,
-        content: content,
-        updated_at: new Date().toISOString()
-    }, {
-        onConflict: 'student_id, meeting_number' // Ini penting, berdasarkan UNIQUE constraint yg kita buat di SQL
-    });
+            const { error } = await db.from('essay_submissions').upsert({
+                student_id: user.id,
+                meeting_number: meetingNumber,
+                content: content,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: 'student_id, meeting_number'
+            });
 
-    if (error) {
-        showNotification('Gagal menyimpan esai: ' + error.message, 'error');
-        statusEl.textContent = 'Gagal menyimpan.';
-        statusEl.classList.add('text-red-500');
-    } else {
-        // Berhasil!
-        statusEl.textContent = 'Berhasil disimpan!';
-        statusEl.classList.add('text-green-500');
+            if (error) {
+                showNotification('Gagal menyimpan esai: ' + error.message, 'error');
+                statusEl.textContent = 'Gagal menyimpan.';
+                statusEl.classList.add('text-red-500');
+            } else {
+                statusEl.textContent = 'Berhasil disimpan!';
+                statusEl.classList.add('text-green-500');
 
-        // Perbarui juga data di "fullStudentData" agar konsisten
-        let existing = fullStudentData.essaySubmissions.find(e => e.student_id === user.id && e.meeting_number == meetingNumber);
-        if (existing) {
-            existing.content = content;
-        } else {
-            fullStudentData.essaySubmissions.push({ student_id: user.id, meeting_number: meetingNumber, content: content });
+                let existing = fullStudentData.essaySubmissions.find(e => e.student_id === user.id && e.meeting_number == meetingNumber);
+                if (existing) {
+                    existing.content = content;
+                } else {
+                    fullStudentData.essaySubmissions.push({ student_id: user.id, meeting_number: meetingNumber, content: content });
+                }
+
+                setTimeout(() => { statusEl.textContent = ''; }, 3000);
+            }
         }
 
-        // Hilangkan pesan status setelah 3 detik
-        setTimeout(() => { statusEl.textContent = ''; }, 3000);
-    }
-}
-// FUNGSI BARU UNTUK MEMBUKA MODAL EDIT RPS
-function openRpsEditModal(rpsItem) {
-    // Isi form modal dengan data yang ada
-    document.getElementById('rps-week-id').value = rpsItem.week;
-    document.getElementById('rps-topic').value = rpsItem.topic;
-    document.getElementById('rps-description').value = rpsItem.description;
-    document.getElementById('rps-modal-title').textContent = `Edit Meeting ${rpsItem.week}`;
+        function openRpsEditModal(rpsItem) {
+            document.getElementById('rps-week-id').value = rpsItem.week;
+            document.getElementById('rps-topic').value = rpsItem.topic;
+            document.getElementById('rps-description').value = rpsItem.description;
+            document.getElementById('rps-modal-title').textContent = `Edit Meeting ${rpsItem.week}`;
+            document.getElementById('rps-edit-modal').classList.remove('hidden');
+        }
 
-    // Tampilkan modalnya
-    document.getElementById('rps-edit-modal').classList.remove('hidden');
-}
+        function closeRpsEditModal() {
+            document.getElementById('rps-edit-modal').classList.add('hidden');
+            document.getElementById('rps-edit-form').reset();
+        }
 
-// FUNGSI BARU UNTUK MENUTUP MODAL EDIT RPS
-function closeRpsEditModal() {
-    document.getElementById('rps-edit-modal').classList.add('hidden');
-    document.getElementById('rps-edit-form').reset();
-}
+        async function saveRpsChanges() {
+            const week = document.getElementById('rps-week-id').value;
+            const topic = document.getElementById('rps-topic').value;
+            const description = document.getElementById('rps-description').value;
 
-// FUNGSI BARU UNTUK MENYIMPAN PERUBAHAN RPS
-async function saveRpsChanges() {
-    const week = document.getElementById('rps-week-id').value;
-    const topic = document.getElementById('rps-topic').value;
-    const description = document.getElementById('rps-description').value;
+            if (!topic) {
+                showNotification("Meeting title cannot be empty.", "error");
+                return;
+            }
 
-    if (!topic) {
-        showNotification("Meeting title cannot be empty.", "error");
-        return;
-    }
+            const { error, data } = await db.from('rps').update({ 
+                topic: topic, 
+                description: description 
+            }).eq('week', week).select();
 
-    // Kirim update ke Supabase
-    const { error, data } = await db.from('rps').update({ 
-        topic: topic, 
-        description: description 
-    }).eq('week', week).select();
+            if (error) {
+                showNotification("Error saving changes: " + error.message, "error");
+            } else if (data && data.length === 0) {
+                showNotification("Gagal mengubah modul RPS. Aksi diblokir oleh RLS Supabase.", "error");
+            } else {
+                showNotification("Meeting details updated successfully!");
+                closeRpsEditModal();
+                await fetchRpsData(); 
+                await renderLecturerModules();
+            }
+        }
 
-    if (error) {
-        showNotification("Error saving changes: " + error.message, "error");
-    } else if (data && data.length === 0) {
-        showNotification("Gagal mengubah modul RPS. Aksi diblokir oleh RLS Supabase.", "error");
-    } else {
-        showNotification("Meeting details updated successfully!");
-        closeRpsEditModal();
-
-        // PENTING: Ambil data baru dari DB dan gambar ulang modulnya
-        await fetchRpsData(); 
-        await renderLecturerModules();
-    }
-}
         async function renderLecturerModules() {
             const container = document.getElementById('lecturer-modules-list');
             if (!container) return; // Guard clause
@@ -2655,12 +2568,12 @@ async function saveRpsChanges() {
                                 </div>
                                 
                                 <div class="flex items-center space-x-1">
-    <label for="essay-toggle-${meetingNumber}" class="text-xs text-gray-500 cursor-pointer">Essay</label>
-    <div class="relative inline-block w-10 align-middle select-none">
-        <input type="checkbox" name="essay-toggle" id="essay-toggle-${meetingNumber}" class="essay-toggle-checkbox toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" ${meeting?.essay_enabled ? 'checked' : ''}/>
-        <label for="essay-toggle-${meetingNumber}" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
-    </div>
-</div>
+                                    <label for="essay-toggle-${meetingNumber}" class="text-xs text-gray-500 cursor-pointer">Essay</label>
+                                    <div class="relative inline-block w-10 align-middle select-none">
+                                        <input type="checkbox" name="essay-toggle" id="essay-toggle-${meetingNumber}" class="essay-toggle-checkbox toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" ${meeting?.essay_enabled ? 'checked' : ''}/>
+                                        <label for="essay-toggle-${meetingNumber}" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                                    </div>
+                                </div>
 
                                 <div class="flex items-center space-x-1">
                                     <label for="submission-toggle-${meetingNumber}" class="text-xs text-gray-500 cursor-pointer">Uploads</label>
@@ -2685,15 +2598,15 @@ async function saveRpsChanges() {
                         </div>
                     </div>
                     <div class="mt-4 pt-4 border-t flex justify-between items-center">
-    <button class="edit-rps-btn text-indigo-600 hover:text-indigo-800" data-week="${meetingNumber}">
-        <i data-feather="edit-2" class="w-4 h-4"></i>
-    </button>
+                        <button class="edit-rps-btn text-indigo-600 hover:text-indigo-800" data-week="${meetingNumber}">
+                            <i data-feather="edit-2" class="w-4 h-4"></i>
+                        </button>
 
-    <div class="space-x-2">
-        <button class="manage-material-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded">Material</button>
-        <button class="manage-quiz-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded">${[8, 16].includes(meetingNumber) ? 'Exam' : 'Quiz'}</button>
-    </div>
-</div>
+                        <div class="space-x-2">
+                            <button class="manage-material-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded">Material</button>
+                            <button class="manage-quiz-btn text-xs bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-1 rounded">${[8, 16].includes(meetingNumber) ? 'Exam' : 'Quiz'}</button>
+                        </div>
+                    </div>
                 `;
                 card.innerHTML = cardHTML;
                 
@@ -2701,7 +2614,7 @@ async function saveRpsChanges() {
                     const { error } = await db.from('meetings').update({ is_unlocked: e.target.checked }).eq('meeting_number', meetingNumber);
                     if (error) {
                         showNotification('Error: ' + error.message, 'error');
-                        e.target.checked = !e.target.checked; // Revert on failure
+                        e.target.checked = !e.target.checked; 
                     } else {
                         showNotification(`Module ${meetingNumber} has been ${e.target.checked ? 'unlocked' : 'locked'}.`);
                     }
@@ -2711,28 +2624,27 @@ async function saveRpsChanges() {
                     const { error } = await db.from('meetings').update({ assignment_enabled: e.target.checked }).eq('meeting_number', meetingNumber);
                     if (error) {
                         showNotification('Error: ' + error.message, 'error');
-                        e.target.checked = !e.target.checked; // Revert on failure
+                        e.target.checked = !e.target.checked; 
                     } else {
                         showNotification(`File submission for Module ${meetingNumber} has been ${e.target.checked ? 'enabled' : 'disabled'}.`);
                     }
                 });
 
-                 // LISTENER UNTUK TOGGLE ESSAY BARU
-card.querySelector('.essay-toggle-checkbox').addEventListener('change', async (e) => {
-    const { error } = await db.from('meetings').update({ essay_enabled: e.target.checked }).eq('meeting_number', meetingNumber);
-    if (error) {
-        showNotification('Error: ' + error.message, 'error');
-        e.target.checked = !e.target.checked; // Kembalikan jika gagal
-    } else {
-        showNotification(`Essay task for Module ${meetingNumber} has been ${e.target.checked ? 'enabled' : 'disabled'}.`);
-    }
-});
+                card.querySelector('.essay-toggle-checkbox').addEventListener('change', async (e) => {
+                    const { error } = await db.from('meetings').update({ essay_enabled: e.target.checked }).eq('meeting_number', meetingNumber);
+                    if (error) {
+                        showNotification('Error: ' + error.message, 'error');
+                        e.target.checked = !e.target.checked; 
+                    } else {
+                        showNotification(`Essay task for Module ${meetingNumber} has been ${e.target.checked ? 'enabled' : 'disabled'}.`);
+                    }
+                });
 
                 card.querySelector('.quiz-toggle-checkbox').addEventListener('change', async (e) => {
                     const { error } = await db.from('meetings').update({ quiz_enabled: e.target.checked }).eq('meeting_number', meetingNumber);
                     if (error) {
                         showNotification('Error: ' + error.message, 'error');
-                        e.target.checked = !e.target.checked; // Revert on failure
+                        e.target.checked = !e.target.checked;
                     } else {
                         showNotification(`Quiz for Module ${meetingNumber} has been ${e.target.checked ? 'enabled' : 'disabled'}.`);
                     }
@@ -2740,16 +2652,13 @@ card.querySelector('.essay-toggle-checkbox').addEventListener('change', async (e
                 
                 card.querySelector('.manage-material-btn').addEventListener('click', () => openMaterialModal(material, meetingNumber));
                 card.querySelector('.manage-quiz-btn').addEventListener('click', () => openQuizBuilderModal(quiz, meetingNumber));
-// Listener untuk tombol "edit" (ikon pensil)
-card.querySelector('.edit-rps-btn').addEventListener('click', () => {
-    // Tidak perlu mencari lagi, 'rpsItem' sudah benar dari loop-nya
-    if (rpsItem) {
-        openRpsEditModal(rpsItem);
-    } else {
-        // Ini seharusnya tidak pernah terjadi, tapi bagus untuk jaga-jaga
-        showNotification("Error: Tidak bisa memuat data untuk meeting ini.", "error");
-    }
-});
+                card.querySelector('.edit-rps-btn').addEventListener('click', () => {
+                    if (rpsItem) {
+                        openRpsEditModal(rpsItem);
+                    } else {
+                        showNotification("Error: Tidak bisa memuat data untuk meeting ini.", "error");
+                    }
+                });
                 container.appendChild(card);
             });
             feather.replace();
@@ -2796,22 +2705,20 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                     const isAttended = e.target.dataset.attended === 'true';
 
                     if (isAttended) {
-                        // Delete attendance record
                         const { error } = await db.from('attendance').delete().match({ student_id: studentId, meeting_number: meetingNum });
                         if (error) {
                             showNotification('Failed to update attendance: ' + error.message, 'error');
                         } else {
                             showNotification('Attendance updated.', 'success');
-                            renderLecturerAttendance(); // Re-render the table
+                            renderLecturerAttendance();
                         }
                     } else {
-                        // Insert attendance record
                         const { error } = await db.from('attendance').insert({ student_id: studentId, meeting_number: meetingNum });
                         if (error) {
                             showNotification('Failed to update attendance: ' + error.message, 'error');
                         } else {
                             showNotification('Attendance updated.', 'success');
-                            renderLecturerAttendance(); // Re-render the table
+                            renderLecturerAttendance();
                         }
                     }
                 });
@@ -2819,244 +2726,237 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
         }
         
         async function renderLecturerSubmissions(meetingNumber = 1) {
-    const tableBody = document.getElementById('submission-table-body');
-    if (!tableBody) return;
-    tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">Loading submissions...</td></tr>'; // Tambah 1 kolom
+            const tableBody = document.getElementById('submission-table-body');
+            if (!tableBody) return;
+            tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">Loading submissions...</td></tr>';
 
-    // Parse meeting number
-    const meetingNumInt = parseInt(meetingNumber, 10) || 1;
+            const meetingNumInt = parseInt(meetingNumber, 10) || 1;
 
-    // Ambil semua data mahasiswa
-    const { data: students, error: studentsError } = await db.from('students').select('id, nrp, name').order('name');
-    if (studentsError) {
-        tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">Could not load students.</td></tr>';
-        return;
-    }
-
-    // Ambil data file submissions
-    const { data: fileSubmissions, error: fileError } = await db
-        .from('submissions')
-        .select('*')
-        .eq('meeting_number', meetingNumInt);
-
-    // Ambil data essay submissions  
-    const { data: essaySubmissions, error: essayError } = await db
-        .from('essay_submissions')
-        .select('*')
-        .eq('meeting_number', meetingNumInt);
-
-    if (fileError && essayError) {
-        console.error("Error fetching submissions:", fileError, essayError);
-        tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">Could not load submissions.</td></tr>';
-        return;
-    }
-
-    // Gabungkan data file dan essay submissions
-    const allSubmissions = [];
-    if (fileSubmissions) {
-        fileSubmissions.forEach(sub => {
-            allSubmissions.push({
-                student_id: sub.student_id,
-                meeting_number: sub.meeting_number,
-                submission_type: 'file',
-                file_name: sub.file_name,
-                file_url: sub.file_url,
-                content: null
-            });
-        });
-    }
-    if (essaySubmissions) {
-        essaySubmissions.forEach(essay => {
-            allSubmissions.push({
-                student_id: essay.student_id,
-                meeting_number: essay.meeting_number,
-                submission_type: 'essay',
-                file_name: null,
-                file_url: null,
-                content: essay.content
-            });
-        });
-    }
-
-    // Ubah nama kolom header dari "File" menjadi "Submission"
-    const headerRow = document.querySelector("#lecturer-submissions-content thead tr");
-    if (headerRow) {
-        if (headerRow.children[2]) {
-            headerRow.children[2].textContent = "Submission";
-        }
-        // Tambahkan header "Score" jika belum ada
-        if (headerRow.children.length < 4) {
-            const scoreHeader = document.createElement('th');
-            scoreHeader.scope = 'col';
-            scoreHeader.className = 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider';
-            scoreHeader.textContent = 'Score';
-            headerRow.appendChild(scoreHeader);
-        }
-    }
-
-    tableBody.innerHTML = ''; // Kosongkan tabel
-
-    if (students.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">No students registered yet.</td></tr>';
-        return;
-    }
-
-    // Kita perlu data score yang sudah ada
-    const { data: fileScores } = await db.from('submissions').select('student_id, score').eq('meeting_number', meetingNumInt);
-    const { data: essayScores } = await db.from('essay_submissions').select('student_id, score').eq('meeting_number', meetingNumInt);
-
-    students.forEach(student => {
-        // Cari submission (file ATAU esai) untuk mahasiswa ini
-        const submission = allSubmissions.find(s => s.student_id === student.id);
-        const row = document.createElement('tr');
-        
-        row.className = 'submission-row';
-        row.dataset.search = `${student.name.toLowerCase()} ${student.nrp.toLowerCase()}`;
-
-        let submissionHTML = '<span class="text-gray-400">No submission</span>';
-        let submissionType = null;
-        let currentScore = '';
-
-        if (submission) {
-            if (submission.submission_type === 'file') {
-                submissionType = 'submissions'; // Nama tabel
-                const scoreRecord = fileScores.find(s => s.student_id === student.id);
-                currentScore = scoreRecord?.score ?? '';
-                submissionHTML = `<div class="flex items-center space-x-2">
-                                    <a href="${submission.file_url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 flex items-center">
-                                        <i data-feather="download" class="w-4 h-4 mr-2"></i>${submission.file_name}
-                                    </a>
-                                    <button class="delete-submission-btn text-red-500 hover:text-red-700" data-student-id="${student.id}" data-table-name="${submissionType}" data-meeting-number="${meetingNumInt}" title="Delete Submission">
-                                        <i data-feather="trash-2" class="w-4 h-4"></i>
-                                    </button>
-                                  </div>`;
-            } else if (submission.submission_type === 'essay' && submission.content) {
-                submissionType = 'essay_submissions'; // Nama tabel
-                const scoreRecord = essayScores.find(s => s.student_id === student.id);
-                currentScore = scoreRecord?.score ?? '';
-                submissionHTML = `<div class="flex items-center space-x-2">
-                                    <button 
-                                        class="view-essay-btn text-purple-600 hover:text-purple-800 flex items-center"
-                                        data-student-name="${student.name}"
-                                        data-content="${encodeURIComponent(submission.content)}">
-                                        <i data-feather="file-text" class="w-4 h-4 mr-2"></i>View Essay
-                                    </button>
-                                    <button class="delete-submission-btn text-red-500 hover:text-red-700" data-student-id="${student.id}" data-table-name="${submissionType}" data-meeting-number="${meetingNumInt}" title="Delete Submission">
-                                        <i data-feather="trash-2" class="w-4 h-4"></i>
-                                    </button>
-                                  </div>`;
-            } else if (submission.submission_type === 'essay' && !submission.content) {
-                submissionHTML = '<span class="text-gray-500 italic">Empty Essay</span>';
+            const { data: students, error: studentsError } = await db.from('students').select('id, nrp, name').order('name');
+            if (studentsError) {
+                tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">Could not load students.</td></tr>';
+                return;
             }
-        }
 
-        // KOTAK INPUT NILAI BARU
-        const scoreInputHTML = `
-            <input 
-                type="number" 
-                min="0" 
-                max="100" 
-                class="submission-score-input w-20 p-1 text-center border rounded-md" 
-                value="${currentScore}" 
-                ${!submission ? 'disabled' : ''}
-                data-student-id="${student.id}"
-                data-meeting-number="${meetingNumInt}"
-                data-table-name="${submissionType}"
-            >
-        `;
+            const { data: fileSubmissions, error: fileError } = await db.from('submissions').select('*').eq('meeting_number', meetingNumInt);
+            const { data: essaySubmissions, error: essayError } = await db.from('essay_submissions').select('*').eq('meeting_number', meetingNumInt);
 
-        row.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.nrp}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${student.name}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${submissionHTML}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${scoreInputHTML}</td>
-        `;
-        tableBody.appendChild(row);
-    });
-    
-    // --- PASANG LISTENER UNTUK MODAL EASSY ---
-    tableBody.querySelectorAll('.view-essay-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const btn = e.currentTarget;
-            const studentName = btn.dataset.studentName;
-            const essayContent = decodeURIComponent(btn.dataset.content);
-            document.getElementById('essay-viewer-student').textContent = `Submitted by: ${studentName}`;
-            document.getElementById('essay-viewer-content').innerHTML = essayContent.replace(/\n/g, '<br>'); 
-            document.getElementById('essay-viewer-modal').classList.remove('hidden');
-        });
-    });
-
-    // --- LISTENER BARU UNTUK INPUT NILAI ---
-    tableBody.querySelectorAll('.submission-score-input').forEach(input => {
-        input.addEventListener('blur', async (e) => { // 'blur' = saat fokus hilang
-            const studentId = e.target.dataset.studentId;
-            const meetingNum = e.target.dataset.meetingNumber;
-            const tableName = e.target.dataset.tableName;
-            const newScore = e.target.value;
-
-            if (!tableName || tableName === 'null') return; // Jangan simpan jika tidak ada submission
-
-            const { error, data } = await db.from(tableName)
-                .update({ score: newScore })
-                .match({ student_id: studentId, meeting_number: meetingNum })
-                .select();
-
-            if (error) {
-                showNotification(`Gagal menyimpan nilai: ${error.message}`, 'error');
-                e.target.style.borderColor = 'red';
-            } else if (data && data.length === 0) {
-                showNotification('Gagal! Diblokir oleh RLS Supabase.', 'error');
-                e.target.style.borderColor = 'red';
-            } else {
-                showNotification('Nilai berhasil disimpan!', 'success');
-                e.target.style.borderColor = 'green';
-                setTimeout(() => { e.target.style.borderColor = ''; }, 2000);
+            if (fileError && essayError) {
+                console.error("Error fetching submissions:", fileError, essayError);
+                tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">Could not load submissions.</td></tr>';
+                return;
             }
-        });
-    });
 
-    // --- LISTENER BARU UNTUK DELETE SUBMISSION ---
-    tableBody.querySelectorAll('.delete-submission-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const button = e.currentTarget;
-            const studentId = button.dataset.studentId;
-            const tableName = button.dataset.tableName;
-            const meetingNum = parseInt(button.dataset.meetingNumber, 10);
+            const allSubmissions = [];
+            if (fileSubmissions) {
+                fileSubmissions.forEach(sub => {
+                    allSubmissions.push({
+                        student_id: sub.student_id,
+                        meeting_number: sub.meeting_number,
+                        submission_type: 'file',
+                        file_name: sub.file_name,
+                        file_url: sub.file_url,
+                        content: null
+                    });
+                });
+            }
+            if (essaySubmissions) {
+                essaySubmissions.forEach(essay => {
+                    allSubmissions.push({
+                        student_id: essay.student_id,
+                        meeting_number: essay.meeting_number,
+                        submission_type: 'essay',
+                        file_name: null,
+                        file_url: null,
+                        content: essay.content
+                    });
+                });
+            }
 
-            showConfirmationModal(
-                'Delete Submission',
-                'Are you sure you want to delete this submission? The student will need to submit again.',
-                async () => {
-                    // Tambahkan .select() agar Supabase mengembalikan data yang dihapus
-                    const { error, data } = await db.from(tableName)
-                        .delete()
-                        .match({ student_id: studentId, meeting_number: meetingNum })
-                        .select();
+            const headerRow = document.querySelector("#lecturer-submissions-content thead tr");
+            if (headerRow) {
+                if (headerRow.children[2]) {
+                    headerRow.children[2].textContent = "Submission";
+                }
+                if (headerRow.children.length < 4) {
+                    const scoreHeader = document.createElement('th');
+                    scoreHeader.scope = 'col';
+                    scoreHeader.className = 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider';
+                    scoreHeader.textContent = 'Score';
+                    headerRow.appendChild(scoreHeader);
+                }
+            }
 
-                    if (error) {
-                        showNotification('Gagal menghapus: ' + error.message, 'error');
-                        console.error('Delete error:', error);
-                    } else if (data && data.length === 0) {
-                        // Jika data.length === 0, artinya dihapus 0 baris (Terblokir RLS Supabase)
-                        showNotification('Gagal! Data gagal dihapus karena diblokir oleh sistem RLS Supabase.', 'error');
-                    } else {
-                        showNotification('Submission berhasil dihapus!', 'success');
-                        renderLecturerSubmissions(meetingNum); // Refresh table
+            tableBody.innerHTML = '';
+
+            if (students.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" class="text-center p-4">No students registered yet.</td></tr>';
+                return;
+            }
+
+            const { data: fileScores } = await db.from('submissions').select('student_id, score').eq('meeting_number', meetingNumInt);
+            const { data: essayScores } = await db.from('essay_submissions').select('student_id, score').eq('meeting_number', meetingNumInt);
+
+            students.forEach(student => {
+                const submission = allSubmissions.find(s => s.student_id === student.id);
+                const row = document.createElement('tr');
+                
+                row.className = 'submission-row';
+                row.dataset.search = `${student.name.toLowerCase()} ${student.nrp.toLowerCase()}`;
+
+                let submissionHTML = '<span class="text-gray-400">No submission</span>';
+                let submissionType = null;
+                let currentScore = '';
+
+                if (submission) {
+                    if (submission.submission_type === 'file') {
+                        submissionType = 'submissions';
+                        const scoreRecord = fileScores.find(s => s.student_id === student.id);
+                        currentScore = scoreRecord?.score ?? '';
+                        submissionHTML = `<div class="flex items-center space-x-2">
+                                            <a href="${submission.file_url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 flex items-center">
+                                                <i data-feather="download" class="w-4 h-4 mr-2"></i>${submission.file_name}
+                                            </a>
+                                            <button class="delete-submission-btn text-red-500 hover:text-red-700" data-student-id="${student.id}" data-table-name="${submissionType}" data-meeting-number="${meetingNumInt}" title="Delete Submission">
+                                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                                            </button>
+                                          </div>`;
+                    } else if (submission.submission_type === 'essay' && submission.content) {
+                        submissionType = 'essay_submissions';
+                        const scoreRecord = essayScores.find(s => s.student_id === student.id);
+                        currentScore = scoreRecord?.score ?? '';
+                        submissionHTML = `<div class="flex items-center space-x-2">
+                                            <button 
+                                                class="view-essay-btn text-purple-600 hover:text-purple-800 flex items-center"
+                                                data-student-name="${student.name}"
+                                                data-content="${encodeURIComponent(submission.content)}">
+                                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i>View Essay
+                                            </button>
+                                            <button class="delete-submission-btn text-red-500 hover:text-red-700" data-student-id="${student.id}" data-table-name="${submissionType}" data-meeting-number="${meetingNumInt}" title="Delete Submission">
+                                                <i data-feather="trash-2" class="w-4 h-4"></i>
+                                            </button>
+                                          </div>`;
+                    } else if (submission.submission_type === 'essay' && !submission.content) {
+                        submissionHTML = '<span class="text-gray-500 italic">Empty Essay</span>';
                     }
                 }
-            );
-        });
-    });
 
-    feather.replace(); 
-    document.getElementById('search-submission-input').dispatchEvent(new Event('input'));
-}
+                // ALWAYS ENABLE INPUT: Default fallback table is essay_submissions if no submission exists
+                const tableNameToSave = submissionType || 'essay_submissions';
+
+                const scoreInputHTML = `
+                    <input 
+                        type="number" 
+                        min="0" 
+                        max="100" 
+                        class="submission-score-input w-20 p-1 text-center border rounded-md focus:ring-2 focus:ring-indigo-500 transition-all bg-gray-50" 
+                        value="${currentScore}" 
+                        placeholder="Input"
+                        data-student-id="${student.id}"
+                        data-meeting-number="${meetingNumInt}"
+                        data-table-name="${tableNameToSave}"
+                    >
+                `;
+
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${student.nrp}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${student.name}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${submissionHTML}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${scoreInputHTML}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            tableBody.querySelectorAll('.view-essay-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const btn = e.currentTarget;
+                    const studentName = btn.dataset.studentName;
+                    const essayContent = decodeURIComponent(btn.dataset.content);
+                    document.getElementById('essay-viewer-student').textContent = `Submitted by: ${studentName}`;
+                    document.getElementById('essay-viewer-content').innerHTML = essayContent.replace(/\n/g, '<br>'); 
+                    document.getElementById('essay-viewer-modal').classList.remove('hidden');
+                });
+            });
+
+            tableBody.querySelectorAll('.submission-score-input').forEach(input => {
+                input.addEventListener('blur', async (e) => {
+                    const studentId = e.target.dataset.studentId;
+                    const meetingNum = e.target.dataset.meetingNumber;
+                    const tableName = e.target.dataset.tableName;
+                    const newScore = e.target.value;
+
+                    if (!tableName || tableName === 'null') return;
+
+                    let error, data;
+
+                    if (newScore === '' || newScore === null) {
+                        const res = await db.from(tableName).update({ score: null }).match({ student_id: studentId, meeting_number: meetingNum }).select();
+                        error = res.error; data = res.data;
+                        e.target.style.borderColor = '';
+                    } else if (tableName === 'essay_submissions') {
+                        const res = await db.from(tableName).upsert({ 
+                            student_id: studentId, 
+                            meeting_number: meetingNum, 
+                            score: newScore,
+                            updated_at: new Date().toISOString()
+                        }, { onConflict: 'student_id, meeting_number' }).select();
+                        error = res.error; data = res.data;
+                    } else {
+                        const res = await db.from(tableName).update({ score: newScore }).match({ student_id: studentId, meeting_number: meetingNum }).select();
+                        error = res.error; data = res.data;
+                    }
+
+                    if (error) {
+                        showNotification(`Gagal menyimpan nilai: ${error.message}`, 'error');
+                        e.target.style.borderColor = 'red';
+                    } else if (data && data.length === 0 && newScore !== '') {
+                        showNotification('Gagal! Diblokir oleh RLS Supabase.', 'error');
+                        e.target.style.borderColor = 'red';
+                    } else if (newScore !== '') {
+                        showNotification('Nilai berhasil disimpan!', 'success');
+                        e.target.style.borderColor = 'green';
+                        setTimeout(() => { e.target.style.borderColor = ''; }, 2000);
+                    }
+                });
+            });
+
+            tableBody.querySelectorAll('.delete-submission-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const button = e.currentTarget;
+                    const studentId = button.dataset.studentId;
+                    const tableName = button.dataset.tableName;
+                    const meetingNum = parseInt(button.dataset.meetingNumber, 10);
+
+                    showConfirmationModal(
+                        'Delete Submission',
+                        'Are you sure you want to delete this submission? The student will need to submit again.',
+                        async () => {
+                            const { error, data } = await db.from(tableName)
+                                .delete()
+                                .match({ student_id: studentId, meeting_number: meetingNum })
+                                .select();
+
+                            if (error) {
+                                showNotification('Gagal menghapus: ' + error.message, 'error');
+                            } else if (data && data.length === 0) {
+                                showNotification('Gagal! Data gagal dihapus karena diblokir oleh sistem RLS Supabase.', 'error');
+                            } else {
+                                showNotification('Submission berhasil dihapus!', 'success');
+                                renderLecturerSubmissions(meetingNum);
+                            }
+                        }
+                    );
+                });
+            });
+
+            feather.replace(); 
+            document.getElementById('search-submission-input').dispatchEvent(new Event('input'));
+        }
 
         async function renderLecturerScores(meetingNumber = null) {
             const headContainer = document.getElementById('scores-table-head');
             const bodyContainer = document.getElementById('scores-table-body');
             
-            // Get selected meeting if not provided
             if (!meetingNumber) {
                 const selectEl = document.getElementById('score-meeting-select');
                 meetingNumber = selectEl ? selectEl.value : 1;
@@ -3076,7 +2976,6 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             const quiz = quizzesRes.data && quizzesRes.data.length > 0 ? quizzesRes.data[0] : null;
             const scores = scoresRes.data || [];
 
-            // 1. Build the dynamic header
             let headerHTML = '<tr>';
             headerHTML += '<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NRP</th>';
             headerHTML += '<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>';
@@ -3084,7 +2983,6 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             headerHTML += '</tr>';
             headContainer.innerHTML = headerHTML;
 
-            // 2. Build the body
             bodyContainer.innerHTML = '';
             if (students.length === 0) {
                  bodyContainer.innerHTML = '<tr><td colspan="100%" class="text-center p-4">No students registered yet.</td></tr>';
@@ -3102,10 +3000,11 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                     if (scoreRecord) scoreValue = scoreRecord.score;
                 }
 
+                // ALWAYS ENABLE INPUT: Create dynamic quiz if needed
                 let scoreCell = `
                     <div class="flex items-center justify-center space-x-1">
-                        <input type="number" value="${scoreValue}" min="0" max="100" data-student-id="${student.id}" data-quiz-id="${quiz ? quiz.id : ''}"
-                            class="score-input w-20 p-1 text-center border rounded-md bg-gray-50 disabled:bg-gray-200" ${!quiz ? 'disabled' : ''}>
+                        <input type="number" value="${scoreValue}" min="0" max="100" data-student-id="${student.id}" data-quiz-id="${quiz ? quiz.id : ''}" data-meeting-number="${meetingNumInt}"
+                            class="score-input w-20 p-1 text-center border rounded-md bg-gray-50 focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="Input">
                         <button 
                             class="reset-score-btn text-gray-400 hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed" 
                             data-student-id="${student.id}" 
@@ -3126,21 +3025,44 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             bodyContainer.querySelectorAll('.score-input').forEach(input => {
                 input.addEventListener('blur', async (e) => {
                     const studentId = e.target.dataset.studentId;
-                    const quizId = e.target.dataset.quizId;
+                    let quizId = e.target.dataset.quizId;
+                    const meetingNum = e.target.dataset.meetingNumber;
                     const newScore = e.target.value;
 
-                    if (!quizId || !studentId) return;
+                    if (!studentId) return;
+
+                    // Automatically create a dummy quiz if the lecturer inputs a score but no quiz exists
+                    if (!quizId && newScore !== '') {
+                        let { data: currentQuiz } = await db.from('quizzes').select('id').eq('meeting', meetingNum).single();
+                        if (!currentQuiz) {
+                            showNotification('Membuat wadah nilai manual...', 'success');
+                            const { data: newQuiz, error: qErr } = await db.from('quizzes').insert({
+                                title: 'Penilaian Manual',
+                                meeting: meetingNum
+                            }).select().single();
+                            
+                            if (qErr) {
+                                showNotification('Gagal membuat wadah nilai: ' + qErr.message, 'error');
+                                e.target.style.borderColor = 'red';
+                                return;
+                            }
+                            currentQuiz = newQuiz;
+                        }
+                        quizId = currentQuiz.id;
+                        document.querySelectorAll(`.score-input[data-meeting-number="${meetingNum}"]`).forEach(inp => inp.dataset.quizId = quizId);
+                        document.querySelectorAll(`.reset-score-btn[data-meeting-number="${meetingNum}"]`).forEach(btn => btn.dataset.quizId = quizId);
+                    }
 
                     if (newScore === '' || newScore === null) {
-                        const { error, data } = await db.from('scores').delete().match({ student_id: studentId, quiz_id: quizId }).select();
-                        if (error) {
-                            showNotification(`Error: ${error.message}`, 'error');
-                        } else if (data && data.length === 0) {
-                            showNotification('Gagal! Diblokir RLS Supabase.', 'error');
-                        } else {
-                            showNotification('Score removed.', 'success');
-                            e.target.style.borderColor = '';
-                            e.target.closest('.flex').querySelector('.reset-score-btn').disabled = true;
+                        if (quizId) {
+                            const { error, data } = await db.from('scores').delete().match({ student_id: studentId, quiz_id: quizId }).select();
+                            if (error) {
+                                showNotification(`Error: ${error.message}`, 'error');
+                            } else {
+                                showNotification('Score removed.', 'success');
+                                e.target.style.borderColor = '';
+                                e.target.closest('.flex').querySelector('.reset-score-btn').disabled = true;
+                            }
                         }
                     } else {
                         const scoreValue = parseInt(newScore, 10);
@@ -3193,7 +3115,7 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                                 showNotification('Gagal! Diblokir oleh RLS Supabase.', 'error');
                             } else {
                                 showNotification(`Score for ${studentName} in Meeting ${meetNum} has been reset.`);
-                                await renderLecturerScores(meetNum); // Refresh the table
+                                await renderLecturerScores(meetNum);
                             }
                         }
                     );
@@ -3203,10 +3125,8 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             document.getElementById('search-scores-input').dispatchEvent(new Event('input'));
         }
         
-        // --- NEW FUNCTION: Fetch & Setup Announcement Data ---
         async function fetchAnnouncement() {
             try {
-                // Ignore errors silently if table doesn't exist yet
                 const { data, error } = await db.from('announcement').select('*').eq('id', 1).single();
                 if (data && !error) {
                     const banner = document.getElementById('login-announcement');
@@ -3252,7 +3172,6 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             }
         }
         
-        // UPDATED FUNCTION: Render the "Hubungi Komting" page with edit functionality
         function renderHubungiKomting() {
             const container = document.getElementById('lecturer-komting-content');
             if (!container) return;
@@ -3341,9 +3260,8 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
             container.innerHTML = contentHTML;
             feather.replace();
 
-            // Add event listeners based on the mode
             if (isKomtingEditMode) {
-                document.getElementById('save-komting-btn').addEventListener('click', () => {
+                document.getElementById('save-komting-btn')?.addEventListener('click', () => {
                     document.querySelectorAll('.komting-edit-card').forEach(card => {
                         const index = card.dataset.index;
                         const newProdi = card.querySelector('.komting-prodi-input').value;
@@ -3360,12 +3278,12 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                     renderHubungiKomting();
                     showNotification('Kontak komting berhasil diperbarui.', 'success');
                 });
-                document.getElementById('cancel-komting-btn').addEventListener('click', () => {
+                document.getElementById('cancel-komting-btn')?.addEventListener('click', () => {
                     isKomtingEditMode = false;
                     renderHubungiKomting();
                 });
             } else {
-                document.getElementById('edit-komting-btn').addEventListener('click', () => {
+                document.getElementById('edit-komting-btn')?.addEventListener('click', () => {
                     isKomtingEditMode = true;
                     renderHubungiKomting();
                 });
@@ -3374,129 +3292,113 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
 
 
         async function exportScoresToExcel() {
-    showNotification('Mempersiapkan rekapan nilai total...', 'success');
+            showNotification('Mempersiapkan rekapan nilai total...', 'success');
 
-    try {
-        // 1. AMBIL SEMUA DATA NILAI DARI SEMUA TABEL
-        const [studentsRes, quizzesRes, quizScoresRes, fileScoresRes, essayScoresRes] = await Promise.all([
-            db.from('students').select('id, nrp, name').order('name'),
-            db.from('quizzes').select('id, meeting'),
-            db.from('scores').select('student_id, quiz_id, score'),
-            db.from('submissions').select('student_id, score, meeting_number').not('score', 'is', null),
-            db.from('essay_submissions').select('student_id, score, meeting_number').not('score', 'is', null)
-        ]);
+            try {
+                const [studentsRes, quizzesRes, quizScoresRes, fileScoresRes, essayScoresRes] = await Promise.all([
+                    db.from('students').select('id, nrp, name').order('name'),
+                    db.from('quizzes').select('id, meeting'),
+                    db.from('scores').select('student_id, quiz_id, score'),
+                    db.from('submissions').select('student_id, score, meeting_number').not('score', 'is', null),
+                    db.from('essay_submissions').select('student_id, score, meeting_number').not('score', 'is', null)
+                ]);
 
-        const students = studentsRes.data || [];
-        const quizzes = quizzesRes.data || [];
-        const quizScores = quizScoresRes.data || [];
-        const fileScores = fileScoresRes.data || [];
-        const essayScores = essayScoresRes.data || [];
+                const students = studentsRes.data || [];
+                const quizzes = quizzesRes.data || [];
+                const quizScores = quizScoresRes.data || [];
+                const fileScores = fileScoresRes.data || [];
+                const essayScores = essayScoresRes.data || [];
 
-        // 2. Tentukan ID Kuis untuk UTS (Meeting 8) dan UAS (Meeting 16)
-        const utsQuiz = quizzes.find(q => q.meeting == 8);
-        const uasQuiz = quizzes.find(q => q.meeting == 16);
-        const utsQuizId = utsQuiz ? utsQuiz.id : null;
-        const uasQuizId = uasQuiz ? uasQuiz.id : null;
+                const utsQuiz = quizzes.find(q => q.meeting == 8);
+                const uasQuiz = quizzes.find(q => q.meeting == 16);
+                const utsQuizId = utsQuiz ? utsQuiz.id : null;
+                const uasQuizId = uasQuiz ? uasQuiz.id : null;
 
-        if (!utsQuizId || !uasQuizId) {
-            showNotification("Error: Kuis untuk UTS (M8) atau UAS (M16) belum dibuat.", "error");
-            return;
-        }
-
-        // 3. FUNGSI UNTUK KONVERSI NILAI KE HURUF
-        const konversiNilaiKeHuruf = (nilai) => {
-            if (nilai > 80) return 'A';
-            if (nilai > 64) return 'B'; // 65 - 80
-            if (nilai > 49) return 'C'; // 50 - 64
-            if (nilai > 29) return 'D'; // 30 - 49
-            return 'E'; // 0 - 29
-        };
-
-        // 4. PROSES DATA UNTUK SETIAP MAHASISWA
-        const dataForExport = students.map(student => {
-            const studentId = student.id;
-
-            // Kumpulkan SEMUA nilai dalam satu array
-            let semuaNilai = [];
-            
-            // --- PERUBAHAN DIMULAI DI SINI ---
-            let utsScore = 0; // Variabel terpisah untuk UTS
-            let uasScore = 0; // Variabel terpisah untuk UAS
-            // --- AKHIR PERUBAHAN ---
-
-            // a. Ambil nilai Kuis Reguler, UTS, dan UAS
-            const allQuizScores = quizScores.filter(s => s.student_id === studentId);
-            allQuizScores.forEach(s => {
-                if (s.quiz_id === utsQuizId) {
-                    utsScore = s.score || 0; // Simpan di variabel terpisah
-                    semuaNilai.push({ type: 'UTS', score: utsScore });
-                } else if (s.quiz_id === uasQuizId) {
-                    uasScore = s.score || 0; // Simpan di variabel terpisah
-                    semuaNilai.push({ type: 'UAS', score: uasScore });
-                } else {
-                    semuaNilai.push({ type: 'Kuis', score: s.score || 0 });
+                if (!utsQuizId || !uasQuizId) {
+                    showNotification("Error: Kuis untuk UTS (M8) atau UAS (M16) belum dibuat.", "error");
+                    return;
                 }
-            });
 
-            // b. Ambil nilai Tugas File
-            fileScores.filter(s => s.student_id === studentId).forEach(s => {
-                semuaNilai.push({ type: 'Tugas File', score: s.score || 0 });
-            });
+                const konversiNilaiKeHuruf = (nilai) => {
+                    if (nilai > 80) return 'A';
+                    if (nilai > 64) return 'B'; 
+                    if (nilai > 49) return 'C'; 
+                    if (nilai > 29) return 'D'; 
+                    return 'E'; 
+                };
 
-            // c. Ambil nilai Tugas Esai
-            essayScores.filter(s => s.student_id === studentId).forEach(s => {
-                semuaNilai.push({ type: 'Tugas Esai', score: s.score || 0 });
-            });
+                const dataForExport = students.map(student => {
+                    const studentId = student.id;
+                    let semuaNilai = [];
+                    let utsScore = 0; 
+                    let uasScore = 0; 
 
-            // 5. HITUNG RATA-RATA TOTAL (logika ini tetap sama)
-            let totalNilai = 0;
-            let jumlahNilai = semuaNilai.length;
-            
-            if (jumlahNilai > 0) {
-                totalNilai = semuaNilai.reduce((acc, current) => acc + current.score, 0);
+                    const allQuizScores = quizScores.filter(s => s.student_id === studentId);
+                    allQuizScores.forEach(s => {
+                        if (s.quiz_id === utsQuizId) {
+                            utsScore = s.score || 0; 
+                            semuaNilai.push({ type: 'UTS', score: utsScore });
+                        } else if (s.quiz_id === uasQuizId) {
+                            uasScore = s.score || 0; 
+                            semuaNilai.push({ type: 'UAS', score: uasScore });
+                        } else {
+                            semuaNilai.push({ type: 'Kuis', score: s.score || 0 });
+                        }
+                    });
+
+                    fileScores.filter(s => s.student_id === studentId).forEach(s => {
+                        semuaNilai.push({ type: 'Tugas File', score: s.score || 0 });
+                    });
+
+                    essayScores.filter(s => s.student_id === studentId).forEach(s => {
+                        semuaNilai.push({ type: 'Tugas Esai', score: s.score || 0 });
+                    });
+
+                    let totalNilai = 0;
+                    let jumlahNilai = semuaNilai.length;
+                    
+                    if (jumlahNilai > 0) {
+                        totalNilai = semuaNilai.reduce((acc, current) => acc + current.score, 0);
+                    }
+                    
+                    const nilaiAkhirRataRata = (jumlahNilai > 0) ? (totalNilai / jumlahNilai) : 0;
+                    const nilaiHuruf = konversiNilaiKeHuruf(nilaiAkhirRataRata);
+
+                    return {
+                        'NRP': student.nrp,
+                        'Name': student.name,
+                        'UTS': utsScore,
+                        'UAS': uasScore, 
+                        'Nilai Rata-Rata': nilaiAkhirRataRata.toFixed(2),
+                        'Nilai Huruf': nilaiHuruf,
+                        'Jumlah Nilai Diambil': jumlahNilai,
+                        'Total Poin': totalNilai
+                    };
+                });
+
+                const worksheet = XLSX.utils.json_to_sheet(dataForExport);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Rekap Nilai Total");
+
+                worksheet['!cols'] = [
+                    { wch: 15 }, 
+                    { wch: 30 }, 
+                    { wch: 8 },  
+                    { wch: 8 },  
+                    { wch: 15 }, 
+                    { wch: 10 }, 
+                    { wch: 20 }, 
+                    { wch: 10 }  
+                ];
+
+                XLSX.writeFile(workbook, "Rekap_Nilai_Total_Mahasiswa.xlsx");
+                showNotification('Rekapan nilai total berhasil diekspor!', 'success');
+
+            } catch (error) {
+                showNotification('Gagal mengekspor data: ' + error.message, 'error');
+                console.error("Error exporting scores:", error);
             }
-            
-            const nilaiAkhirRataRata = (jumlahNilai > 0) ? (totalNilai / jumlahNilai) : 0;
-            const nilaiHuruf = konversiNilaiKeHuruf(nilaiAkhirRataRata);
-
-            // 6. KEMBALIKAN DATA UNTUK BARIS EXCEL (dengan kolom baru)
-            return {
-                'NRP': student.nrp,
-                'Name': student.name,
-                'UTS': utsScore, // Tambahkan kolom UTS
-                'UAS': uasScore, // Tambahkan kolom UAS
-                'Nilai Rata-Rata': nilaiAkhirRataRata.toFixed(2),
-                'Nilai Huruf': nilaiHuruf,
-                'Jumlah Nilai Diambil': jumlahNilai,
-                'Total Poin': totalNilai
-            };
-        });
-
-        // 7. BUAT FILE EXCEL
-        const worksheet = XLSX.utils.json_to_sheet(dataForExport);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Rekap Nilai Total");
-
-        // Atur lebar kolom agar lebih rapi (menambahkan UTS dan UAS)
-        worksheet['!cols'] = [
-            { wch: 15 }, // NRP
-            { wch: 30 }, // Name
-            { wch: 8 },  // UTS (Baru)
-            { wch: 8 },  // UAS (Baru)
-            { wch: 15 }, // Nilai Rata-Rata
-            { wch: 10 }, // Nilai Huruf
-            { wch: 20 }, // Jumlah Nilai Diambil
-            { wch: 10 }  // Total Poin
-        ];
-
-        XLSX.writeFile(workbook, "Rekap_Nilai_Total_Mahasiswa.xlsx");
-        showNotification('Rekapan nilai total berhasil diekspor!', 'success');
-
-    } catch (error) {
-        showNotification('Gagal mengekspor data: ' + error.message, 'error');
-        console.error("Error exporting scores:", error);
-    }
-}
+        }
 
         async function handleChangePassword() {
             const { data: { user } } = await db.auth.getUser();
@@ -3513,7 +3415,6 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 return;
             }
 
-            // Verify old password by trying to sign in with it
             const { error: signInError } = await db.auth.signInWithPassword({
                 email: user.email,
                 password: oldPassword,
@@ -3524,13 +3425,11 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 return;
             }
 
-            // Update user's password in Supabase Auth
             const { error: updateError } = await db.auth.updateUser({ password: newPassword });
             
             if (updateError) {
                 showNotification('Failed to update password: ' + updateError.message, 'error');
             } else {
-                 // Also update the password in the public.students table
                  const { error: tableUpdateError } = await db.from('students').update({ password: newPassword }).eq('id', user.id);
                  if (tableUpdateError){
                       showNotification('Failed to update password in students table: ' + tableUpdateError.message, 'error');
@@ -3544,68 +3443,59 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
 
         // --- Initial App Load ---
         async function checkSession() {
-    try {
-        // 1. SELALU mulai dengan mengecek sesi Supabase
-        const { data: { session }, error: sessionError } = await db.auth.getSession();
+            try {
+                const { data: { session }, error: sessionError } = await db.auth.getSession();
 
-        if (sessionError || !session) {
-            if (sessionError) console.warn("Supabase session error:", sessionError.message);
-            
-            // Bersihkan token yang kedaluwarsa/invalid agar tidak memicu error refresh token
-            Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('sb-')) {
-                    localStorage.removeItem(key);
+                if (sessionError || !session) {
+                    if (sessionError) console.warn("Supabase session error:", sessionError.message);
+                    
+                    Object.keys(localStorage).forEach(key => {
+                        if (key.startsWith('sb-')) {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                    sessionStorage.removeItem('user');
+                    showLoginPage(true);
+                    return;
                 }
-            });
-            sessionStorage.removeItem('user');
-            showLoginPage(true);
-            return;
-        }
 
-        if (session && session.user) {
-            // 2. Sesi DITEMUKAN. Cari tahu siapa dia.
-            const user = session.user;
-            const userRole = user.user_metadata?.role;
+                if (session && session.user) {
+                    const user = session.user;
+                    const userRole = user.user_metadata?.role;
 
-            if (userRole === 'lecturer') {
-                // 3. Ini DOSEN
-                sessionStorage.setItem('user', JSON.stringify({ 
-                    role: 'lecturer', 
-                    username: 'Dosen', 
-                    id: user.id 
-                }));
-                await fetchRpsData(); // Ambil data RPS
-                showLoginPage(false);
-                await showLecturerDashboard(true);
+                    if (userRole === 'lecturer') {
+                        sessionStorage.setItem('user', JSON.stringify({ 
+                            role: 'lecturer', 
+                            username: 'Dosen', 
+                            id: user.id 
+                        }));
+                        await fetchRpsData(); 
+                        showLoginPage(false);
+                        await showLecturerDashboard(true);
 
-            } else {
-                // 4. Ini (kemungkinan) MAHASISWA
-                const { data: studentData, error } = await db.from('students').select('*').eq('id', user.id).single();
+                    } else {
+                        const { data: studentData, error } = await db.from('students').select('*').eq('id', user.id).single();
 
-                if (studentData) {
-                    // 5. Ini MAHASISWA yang valid
-                    sessionStorage.setItem('user', JSON.stringify({ role: 'student', ...studentData }));
-                    await fetchRpsData(); // Ambil data RPS
-                    showLoginPage(false);
-                    await showStudentDashboard(true);
+                        if (studentData) {
+                            sessionStorage.setItem('user', JSON.stringify({ role: 'student', ...studentData }));
+                            await fetchRpsData(); 
+                            showLoginPage(false);
+                            await showStudentDashboard(true);
+                        } else {
+                            console.error("User authenticated but no profile found. Logging out.", user.id);
+                            logout(); 
+                        }
+                    }
                 } else {
-                    // 6. Ini PENGGUNA ANEH (terotentikasi tapi bukan dosen & tidak ada di tabel students)
-                    console.error("User authenticated but no profile found. Logging out.", user.id);
-                    logout(); // Ini adalah error Anda sebelumnya, tapi sekarang hanya berlaku untuk pengguna aneh
+                    sessionStorage.removeItem('user'); 
+                    showLoginPage(true);
                 }
+            } catch (err) {
+                console.error("Unexpected checkSession error:", err);
+                sessionStorage.removeItem('user');
+                showLoginPage(true);
             }
-        } else {
-            // 7. Tidak ada sesi SAMA SEKALI. Tampilkan login.
-            // Hapus sisa data sessionStorage lama (jika ada)
-            sessionStorage.removeItem('user'); 
-            showLoginPage(true);
         }
-    } catch (err) {
-        console.error("Unexpected checkSession error:", err);
-        sessionStorage.removeItem('user');
-        showLoginPage(true);
-    }
-}
         
         document.addEventListener('DOMContentLoaded', () => {
             // --- GLOBAL AUTH LISTENER ---
@@ -3615,8 +3505,6 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                     logout();
                 }
             });
-
-             // All event listeners that target specific DOM elements should be inside here.
 
             // --- SEARCH FILTER LISTENERS ---
             const searchSubmissionInput = document.getElementById('search-submission-input');
@@ -3716,7 +3604,7 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                         showNotification('Gagal menyimpan pengumuman: ' + error.message, 'error');
                     } else {
                         showNotification('Pengumuman berhasil disimpan!', 'success');
-                        fetchAnnouncement(); // Update live di halaman login yang tersembunyi
+                        fetchAnnouncement(); 
                     }
                     
                     saveAnnouncementBtn.innerHTML = '<i data-feather="save" class="w-4 h-4 mr-2"></i> Simpan Pengumuman';
@@ -3724,104 +3612,90 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 });
             }
 
-            // --- MATERIAL MODAL LISTENERS ---
-            document.getElementById('cancel-material').addEventListener('click', () => {
+            // --- ALL OTHER LISTENERS ---
+            document.getElementById('cancel-material')?.addEventListener('click', () => {
                 document.getElementById('material-modal').classList.add('hidden');
             });
-            document.getElementById('save-material').addEventListener('click', saveMaterial);
+            document.getElementById('save-material')?.addEventListener('click', saveMaterial);
             
-            // --- QUIZ BUILDER LISTENERS ---
-            document.getElementById('cancel-quiz-builder').addEventListener('click', () => document.getElementById('quiz-builder-modal').classList.add('hidden'));
-            document.getElementById('save-quiz').addEventListener('click', saveQuiz);
-            document.getElementById('add-question').addEventListener('click', () => addQuestionField());
-            document.getElementById('add-instruction').addEventListener('click', () => addInstructionField());
-            document.getElementById('add-passage').addEventListener('click', () => addPassageField());
-            document.getElementById('add-media').addEventListener('click', () => addMediaField());
+            document.getElementById('cancel-quiz-builder')?.addEventListener('click', () => document.getElementById('quiz-builder-modal').classList.add('hidden'));
+            document.getElementById('save-quiz')?.addEventListener('click', saveQuiz);
+            document.getElementById('add-question')?.addEventListener('click', () => addQuestionField());
+            document.getElementById('add-instruction')?.addEventListener('click', () => addInstructionField());
+            document.getElementById('add-passage')?.addEventListener('click', () => addPassageField());
+            document.getElementById('add-media')?.addEventListener('click', () => addMediaField());
             
-            // --- MAIN DASHBOARD LISTENERS ---
-            document.getElementById('show-register').addEventListener('click', () => {
+            document.getElementById('show-register')?.addEventListener('click', () => {
                 document.getElementById('login-form').classList.add('hidden');
                 document.getElementById('register-form').classList.remove('hidden');
             });
 
-            document.getElementById('back-to-login').addEventListener('click', () => {
+            document.getElementById('back-to-login')?.addEventListener('click', () => {
                 document.getElementById('register-form').classList.add('hidden');
                 document.getElementById('login-form').classList.remove('hidden');
             });
 
-            document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = document.getElementById('username').value; // Ini bisa NRP atau guru123
-    const password = document.getElementById('password').value;
+            document.getElementById('login-form')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value; 
+                const password = document.getElementById('password').value;
 
-    let emailToLogin;
-    let isLecturerLogin = false;
+                let emailToLogin;
+                let isLecturerLogin = false;
 
-    // "TRIK" KITA ADA DI SINI:
-    // Cek apakah ini Dosen yang mencoba login?
-    if (username === 'guru123') {
-        isLecturerLogin = true;
-        emailToLogin = 'dosen@elearning.com'; // Kita gunakan email "asli"
-    } else {
-        // Jika bukan, anggap ini Mahasiswa
-        emailToLogin = `${username}@elearning.com`;
-    }
+                if (username === 'guru123') {
+                    isLecturerLogin = true;
+                    emailToLogin = 'dosen@elearning.com'; 
+                } else {
+                    emailToLogin = `${username}@elearning.com`;
+                }
 
-    // Coba login ke Supabase dengan email dan password
-    // Jika Dosen: Supabase akan cek 'dosen@elearning.com' dengan password 'guru123'
-    // Jika Mhs: Supabase akan cek 'nrp@elearning.com' dengan password mhs
-    const { data: authData, error: authError } = await db.auth.signInWithPassword({ 
-        email: emailToLogin, 
-        password: password 
-    });
+                const { data: authData, error: authError } = await db.auth.signInWithPassword({ 
+                    email: emailToLogin, 
+                    password: password 
+                });
 
-    if (authError) {
-        // Jika login Dosen gagal, beri pesan spesifik
-        if (isLecturerLogin) {
-            showNotification('Login Dosen gagal. Pastikan password guru123 Anda sama dengan di Supabase.', 'error');
-        } else {
-            showNotification('Invalid Student ID or password', 'error');
-        }
-        return;
-    }
+                if (authError) {
+                    if (isLecturerLogin) {
+                        showNotification('Login Dosen gagal. Pastikan password guru123 Anda sama dengan di Supabase.', 'error');
+                    } else {
+                        showNotification('Invalid Student ID or password', 'error');
+                    }
+                    return;
+                }
 
-    // Jika login berhasil, cek role-nya
-    if (authData.user) {
-        // Cek role dari metadata (untuk Dosen) atau dari flag (untuk Mahasiswa)
-        const userRole = authData.user.user_metadata?.role;
+                if (authData.user) {
+                    const userRole = authData.user.user_metadata?.role;
 
-        if (userRole === 'lecturer' || isLecturerLogin) {
-            // --- INI LOGIKA UNTUK DOSEN ---
-            sessionStorage.setItem('user', JSON.stringify({ 
-                role: 'lecturer', 
-                username: 'Dosen', 
-                id: authData.user.id 
-            }));
+                    if (userRole === 'lecturer' || isLecturerLogin) {
+                        sessionStorage.setItem('user', JSON.stringify({ 
+                            role: 'lecturer', 
+                            username: 'Dosen', 
+                            id: authData.user.id 
+                        }));
 
-            await fetchRpsData(); // Ambil data RPS
+                        await fetchRpsData(); 
+                        showLoginPage(false);
+                        await showLecturerDashboard(true);
 
-            showLoginPage(false);
-            await showLecturerDashboard(true);
+                    } else {
+                        const { data: studentData, error: studentError } = await db.from('students').select('*').eq('id', authData.user.id).single();
+                        if (studentError || !studentData) {
+                            showNotification('Could not find student profile.', 'error');
+                            await db.auth.signOut(); 
+                            return;
+                        }
+                        sessionStorage.setItem('user', JSON.stringify({ role: 'student', ...studentData }));
+                        await fetchRpsData();
+                        showLoginPage(false);
+                        await showStudentDashboard(true);
+                    }
+                } else {
+                    showNotification('Invalid credentials.', 'error');
+                }
+            });
 
-        } else {
-            // --- INI LOGIKA UNTUK MAHASISWA (yang sudah ada) ---
-            const { data: studentData, error: studentError } = await db.from('students').select('*').eq('id', authData.user.id).single();
-            if (studentError || !studentData) {
-                showNotification('Could not find student profile.', 'error');
-                await db.auth.signOut(); // Logout paksa jika profil tidak ada
-                return;
-            }
-            sessionStorage.setItem('user', JSON.stringify({ role: 'student', ...studentData }));
-            await fetchRpsData();
-            showLoginPage(false);
-            await showStudentDashboard(true);
-        }
-    } else {
-        showNotification('Invalid credentials.', 'error');
-    }
-});
-
-            document.getElementById('register-form').addEventListener('submit', async (e) => {
+            document.getElementById('register-form')?.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const nrp = document.getElementById('reg-nrp').value;
                 const name = document.getElementById('reg-name').value;
@@ -3858,18 +3732,16 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 }
             });
 
-            document.getElementById('student-logout').addEventListener('click', logout);
-            document.getElementById('lecturer-logout').addEventListener('click', logout);
+            document.getElementById('student-logout')?.addEventListener('click', logout);
+            document.getElementById('lecturer-logout')?.addEventListener('click', logout);
             
             const attendanceSelect = document.getElementById('attendance-meeting-select');
             if (attendanceSelect) {
-                 
                  attendanceSelect.addEventListener('change', () => renderLecturerAttendance());
             }
             
             const submissionSelect = document.getElementById('submission-meeting-select');
             if(submissionSelect){
-                 
                  submissionSelect.addEventListener('change', (e) => renderLecturerSubmissions(e.target.value));
             }
 
@@ -3878,10 +3750,9 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                  scoreSelect.addEventListener('change', (e) => renderLecturerScores(e.target.value));
             }
             
-            document.getElementById('export-scores-btn').addEventListener('click', exportScoresToExcel);
+            document.getElementById('export-scores-btn')?.addEventListener('click', exportScoresToExcel);
             
-            // FUNGSI RESET NILAI PER PERTEMUAN
-            document.getElementById('reset-all-scores-btn').addEventListener('click', () => {
+            document.getElementById('reset-all-scores-btn')?.addEventListener('click', () => {
                 const meetingNum = document.getElementById('score-meeting-select').value;
                 if (!meetingNum) {
                     showNotification('Silakan pilih meeting terlebih dahulu!', 'error');
@@ -3895,35 +3766,29 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                         showNotification(`Sedang mereset nilai Meeting ${meetingNum}...`, 'success');
                         
                         try {
-                            // 1. Cari Quiz ID untuk meeting ini
                             const { data: quizData } = await db.from('quizzes').select('id').eq('meeting', meetingNum).single();
                             
-                            // 2. Hapus data di tabel scores (Nilai Kuis/Ujian) HANYA untuk quiz_id ini
                             if (quizData) {
-                                const { error: errScores, data: dataScores } = await db.from('scores')
+                                const { error: errScores } = await db.from('scores')
                                     .delete()
                                     .eq('quiz_id', quizData.id)
                                     .select();
                                 if (errScores) throw errScores;
                             }
 
-                            // 3. Kosongkan (null) kolom score di tabel submissions (Tugas File) HANYA untuk meeting ini
-                            const { error: errSubmissions, data: dataSubmissions } = await db.from('submissions')
+                            const { error: errSubmissions } = await db.from('submissions')
                                 .update({ score: null })
                                 .eq('meeting_number', meetingNum)
                                 .select();
                             if (errSubmissions) throw errSubmissions;
 
-                            // 4. Kosongkan (null) kolom score di tabel essay_submissions (Tugas Esai) HANYA untuk meeting ini
-                            const { error: errEssays, data: dataEssays } = await db.from('essay_submissions')
+                            const { error: errEssays } = await db.from('essay_submissions')
                                 .update({ score: null })
                                 .eq('meeting_number', meetingNum)
                                 .select();
                             if (errEssays) throw errEssays;
 
                             showNotification(`Semua nilai untuk Meeting ${meetingNum} berhasil direset!`, 'success');
-                            
-                            // Render ulang tabel nilai agar perubahannya langsung terlihat
                             await renderLecturerScores(meetingNum); 
                             
                         } catch (error) {
@@ -3934,7 +3799,6 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 );
             });
 
-            // FUNGSI DELETE ALL SUBMISSIONS (Meeting Saat Ini)
             const deleteAllSubBtn = document.getElementById('delete-all-submissions-btn');
             if(deleteAllSubBtn) {
                 deleteAllSubBtn.addEventListener('click', () => {
@@ -3964,188 +3828,145 @@ card.querySelector('.edit-rps-btn').addEventListener('click', () => {
                 });
             }
 
-            document.getElementById('change-password-btn').addEventListener('click', () => {
+            document.getElementById('change-password-btn')?.addEventListener('click', () => {
                 document.getElementById('change-password-modal').classList.remove('hidden');
                 document.getElementById('change-password-form').reset();
             });
 
-            document.getElementById('cancel-change-password').addEventListener('click', () => {
+            document.getElementById('cancel-change-password')?.addEventListener('click', () => {
                 document.getElementById('change-password-modal').classList.add('hidden');
             });
             
-            document.getElementById('save-new-password').addEventListener('click', handleChangePassword);
-            // Listener untuk modal RPS (Edit Judul Meeting)
-document.getElementById('save-rps-btn').addEventListener('click', saveRpsChanges);
-document.getElementById('cancel-rps-btn').addEventListener('click', closeRpsEditModal);
-document.getElementById('close-essay-viewer-btn').addEventListener('click', () => {
-    document.getElementById('essay-viewer-modal').classList.add('hidden');
-});
-            document.getElementById('cancel-action-btn').addEventListener('click', () => {
+            document.getElementById('save-new-password')?.addEventListener('click', handleChangePassword);
+            document.getElementById('save-rps-btn')?.addEventListener('click', saveRpsChanges);
+            document.getElementById('cancel-rps-btn')?.addEventListener('click', closeRpsEditModal);
+            document.getElementById('close-essay-viewer-btn')?.addEventListener('click', () => {
+                document.getElementById('essay-viewer-modal').classList.add('hidden');
+            });
+            document.getElementById('cancel-action-btn')?.addEventListener('click', () => {
                 document.getElementById('confirmation-modal').classList.add('hidden');
             });
 
-            document.getElementById('close-quiz-taker').addEventListener('click', () => {
+            document.getElementById('close-quiz-taker')?.addEventListener('click', () => {
                 if (quizTimerInterval) clearInterval(quizTimerInterval);
                 document.getElementById('quiz-taker-modal').classList.add('hidden');
             });
 
-            document.getElementById('confirm-action-btn').addEventListener('click', () => {
+            document.getElementById('confirm-action-btn')?.addEventListener('click', () => {
                 if (typeof confirmActionCallback === 'function') {
                     confirmActionCallback();
                 }
                 document.getElementById('confirmation-modal').classList.add('hidden');
             });
             
-            document.getElementById('my-scores-btn').addEventListener('click', async () => {
-    document.querySelectorAll('.module-item').forEach(item => item.classList.remove('active'));
-    const detailContainer = document.getElementById('student-module-detail');
-    detailContainer.innerHTML = `<div>Loading scores...</div>`;
+            document.getElementById('my-scores-btn')?.addEventListener('click', async () => {
+                document.querySelectorAll('.module-item').forEach(item => item.classList.remove('active'));
+                const detailContainer = document.getElementById('student-module-detail');
+                detailContainer.innerHTML = `<div>Loading scores...</div>`;
 
-    const user = JSON.parse(sessionStorage.getItem('user'));
+                const user = JSON.parse(sessionStorage.getItem('user'));
 
-    // --- AWAL MODIFIKASI ---
-    // 1. Ambil SEMUA data skor dan data pendukungnya
-    const [quizScoresRes, quizzesRes, fileSubmissionsRes, essaySubmissionsRes] = await Promise.all([
-        db.from('scores').select('*').eq('student_id', user.id), // Nilai Kuis
-        db.from('quizzes').select('id, meeting, title'), // Info Kuis
-        db.from('submissions').select('meeting_number, score').eq('student_id', user.id).not('score', 'is', null), // Nilai Tugas File
-        db.from('essay_submissions').select('meeting_number, score').eq('student_id', user.id).not('score', 'is', null) // Nilai Tugas Esai
-    ]);
+                const [quizScoresRes, quizzesRes, fileSubmissionsRes, essaySubmissionsRes] = await Promise.all([
+                    db.from('scores').select('*').eq('student_id', user.id), 
+                    db.from('quizzes').select('id, meeting, title'), 
+                    db.from('submissions').select('meeting_number, score').eq('student_id', user.id).not('score', 'is', null), 
+                    db.from('essay_submissions').select('meeting_number, score').eq('student_id', user.id).not('score', 'is', null) 
+                ]);
 
-    if (quizScoresRes.error || quizzesRes.error || fileSubmissionsRes.error || essaySubmissionsRes.error) {
-        detailContainer.innerHTML = `<p class="text-red-500">Error loading scores.</p>`;
-        console.error("Error fetching scores:", quizScoresRes.error, quizzesRes.error, fileSubmissionsRes.error, essaySubmissionsRes.error);
-        return;
-    }
+                if (quizScoresRes.error || quizzesRes.error || fileSubmissionsRes.error || essaySubmissionsRes.error) {
+                    detailContainer.innerHTML = `<p class="text-red-500">Error loading scores.</p>`;
+                    return;
+                }
 
-    const quizScores = quizScoresRes.data || [];
-    const quizzes = quizzesRes.data || [];
-    const fileSubmissions = fileSubmissionsRes.data || [];
-    const essaySubmissions = essaySubmissionsRes.data || [];
+                const quizScores = quizScoresRes.data || [];
+                const quizzes = quizzesRes.data || [];
+                const fileSubmissions = fileSubmissionsRes.data || [];
+                const essaySubmissions = essaySubmissionsRes.data || [];
 
-    // 2. Gabungkan semua skor ke dalam satu array
-    let allScores = [];
-    let totalScore = 0;
+                let allScores = [];
+                let totalScore = 0;
 
-    // Proses Nilai Kuis
-    quizScores.forEach(score => {
-        const quiz = quizzes.find(q => q.id === score.quiz_id);
-        if (quiz) {
-            allScores.push({
-                meeting: quiz.meeting,
-                title: quiz.title,
-                type: (quiz.meeting === 8 || quiz.meeting === 16) ? 'Exam' : 'Quiz',
-                score: score.score
+                quizScores.forEach(score => {
+                    const quiz = quizzes.find(q => q.id === score.quiz_id);
+                    if (quiz) {
+                        allScores.push({
+                            meeting: quiz.meeting,
+                            title: quiz.title,
+                            type: (quiz.meeting === 8 || quiz.meeting === 16) ? 'Exam' : 'Quiz',
+                            score: score.score
+                        });
+                        totalScore += score.score;
+                    }
+                });
+
+                fileSubmissions.forEach(sub => {
+                    allScores.push({
+                        meeting: sub.meeting_number,
+                        title: 'File Submission',
+                        type: 'Assignment',
+                        score: sub.score
+                    });
+                    totalScore += sub.score;
+                });
+
+                essaySubmissions.forEach(sub => {
+                    allScores.push({
+                        meeting: sub.meeting_number,
+                        title: 'Essay Submission',
+                        type: 'Assignment',
+                        score: sub.score
+                    });
+                    totalScore += sub.score;
+                });
+
+                allScores.sort((a, b) => a.meeting - b.meeting);
+
+                let scoresHTML = `<h3 class="text-3xl font-bold text-gray-800 mb-6">My Scores</h3>`;
+                let scoreCount = allScores.length; 
+
+                if (scoreCount > 0) {
+                    scoresHTML += `<div class="overflow-x-auto bg-white rounded-lg shadow"><table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meeting</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assessment</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">`;
+
+                    allScores.forEach(score => {
+                        scoresHTML += `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Meeting ${score.meeting}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${score.title}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${score.type}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-indigo-600">${score.score}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    scoresHTML += `</tbody></table></div>`;
+                    
+                    const averageScore = (totalScore / scoreCount).toFixed(2);
+                    scoresHTML += `<div class="mt-6 p-4 bg-gray-100 rounded-lg text-right">
+                        <span class="text-gray-600 font-medium">Average Score (All Tasks):</span>
+                        <span class="text-2xl font-bold text-indigo-700 ml-2">${averageScore}</span>
+                    </div>`;
+
+                } else {
+                    scoresHTML += `<p class="text-center text-gray-500">You do not have any scores recorded yet.</p>`;
+                }
+
+                detailContainer.innerHTML = scoresHTML;
             });
-            totalScore += score.score;
-        }
-    });
-
-    // Proses Nilai Tugas File
-    fileSubmissions.forEach(sub => {
-        allScores.push({
-            meeting: sub.meeting_number,
-            title: 'File Submission',
-            type: 'Assignment',
-            score: sub.score
-        });
-        totalScore += sub.score;
-    });
-
-    // Proses Nilai Tugas Esai
-    essaySubmissions.forEach(sub => {
-        allScores.push({
-            meeting: sub.meeting_number,
-            title: 'Essay Submission',
-            type: 'Assignment',
-            score: sub.score
-        });
-        totalScore += sub.score;
-    });
-
-    // 3. Urutkan semua skor berdasarkan nomor pertemuan
-    allScores.sort((a, b) => a.meeting - b.meeting);
-    // --- AKHIR MODIFIKASI ---
-
-    let scoresHTML = `<h3 class="text-3xl font-bold text-gray-800 mb-6">My Scores</h3>`;
-    let scoreCount = allScores.length; // Gunakan panjang array gabungan
-
-    if (scoreCount > 0) {
-        scoresHTML += `<div class="overflow-x-auto bg-white rounded-lg shadow"><table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meeting</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assessment</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">`;
-
-        // Ganti loop lama dengan loop baru
-        allScores.forEach(score => {
-            scoresHTML += `
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Meeting ${score.meeting}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${score.title}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${score.type}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-indigo-600">${score.score}</td>
-                </tr>
-            `;
-        });
-        
-        scoresHTML += `</tbody></table></div>`;
-        
-        // Kalkulasi rata-rata baru
-        if (scoreCount > 0) {
-            const averageScore = (totalScore / scoreCount).toFixed(2);
-            scoresHTML += `<div class="mt-6 p-4 bg-gray-100 rounded-lg text-right">
-                <span class="text-gray-600 font-medium">Average Score (All Tasks):</span>
-                <span class="text-2xl font-bold text-indigo-700 ml-2">${averageScore}</span>
-            </div>`;
-        }
-
-    } else {
-        // Ubah pesan error
-        scoresHTML += `<p class="text-center text-gray-500">You do not have any scores recorded yet.</p>`;
-    }
-
-    detailContainer.innerHTML = scoresHTML;
-});
-
 
             // Start the clock
             updateClock();
             setInterval(updateClock, 1000);
-
             checkSession();
         });
     </script>
-    <div id="rps-edit-modal" class="modal fixed inset-0 overflow-y-auto hidden">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="modal-backdrop"></div>
-            <div class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full z-50">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="rps-modal-title">Edit Meeting Details</h3>
-                    <form id="rps-edit-form" class="mt-4 space-y-4">
-                        <input type="hidden" id="rps-week-id">
-                        
-                        <div>
-                            <label for="rps-topic" class="block text-sm font-medium text-gray-700">Meeting Title (Topic)</label>
-                            <input type="text" id="rps-topic" required class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                        </div>
-                        <div>
-                            <label for="rps-description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea id="rps-description" rows="3" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse items-center">
-                    <button type="button" id="save-rps-btn" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3">Save Changes</button>
-                    <button type="button" id="cancel-rps-btn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:ml-3">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
